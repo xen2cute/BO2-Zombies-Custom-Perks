@@ -81,6 +81,7 @@ init()
 	precacheshader( "zombies_rank_3" );
 	precacheshader( "zombies_rank_2" );
 	precacheshader( "zombies_rank_4" );
+	precacheshader( "zombies_rank_4_ded");
 	precacheshader( "zombies_rank_5" );
 	precacheshader( "zombies_rank_5_ded");
 	precacheshader( "menu_mp_weapons_xm8" );
@@ -286,15 +287,16 @@ init_custom_map()
 {
 	if( getdvar( "mapname" ) == "zm_transit" && getdvar( "g_gametype" ) == "zstandard")
 	{
-		perk_system( "script_model", ( 2460, -780, -55.875 ), "zombie_vending_tombstone_on", ( 0, 225, 0 ), "custom", "mus_perks_doubletap_sting", "Burn Heart", 2500, "jugger_light", "Burn_Heart","zombie_perk_bottle_jugg" );
-		perk_system( "script_model", ( 901.86, -1575.574, -47.875 ), "zombie_vending_tombstone_on", ( 0, 180, 0 ), "custom", "mus_perks_deadshot_sting", "Thunder Wall", 4000, "tombstone_light", "THUNDER_WALL","zombie_perk_bottle_jugg" );
-		perk_system( "script_model", ( 613, -250.574, -61.875 ), "zombie_vending_tombstone_on", ( 0, 0, 0 ), "custom", "mus_perks_packa_sting", "Electric Cherry", 2000, "tombstone_light", "ELECTRIC_CHERRY","zombie_perk_bottle_jugg" );
-		perk_system( "script_model", ( 1069, -1133, 120.125 ), "zombie_vending_tombstone_on", ( 0, 180, 0 ), "custom", "mus_perks_doubletap_sting", "Assassin's Creed", 4000, "tombstone_light", "Assasins_Creed","zombie_perk_bottle_jugg" );
-		perk_system( "script_model", ( 1823.86, 670.574, -55.875 ), "zombie_vending_tombstone_on", ( 0, 45, 0 ), "custom", "mus_perks_doubletap_sting", "Mule Kick", 4000, "tombstone_light", "MULE","zombie_perk_bottle_jugg" );
-		perk_system( "script_model", ( 840, 603.809, -40.875 ), "zombie_vending_tombstone_on", ( 0, 0, 0 ), "custom", "mus_perks_packa_sting", "PhD Flopper", 2000, "tombstone_light", "PHD_FLOPPER","zombie_perk_bottle_jugg" );
-		perk_system( "script_model", ( 2358, -87, -55.875  ), "zombie_vending_tombstone_on", ( 0, -90, 0 ), "custom", "mus_perks_doubletap_sting", "Downer's Delight", 2500, "tombstone_light", "Downers_Delight","zombie_perk_bottle_jugg" );
-		perk_system( "script_model", (  2015, 858, -56.875  ), "zombie_vending_tombstone_on", ( 0, -90, 0 ), "custom", "mus_perks_doubletap_sting", "Dying Wish", 5000, "tombstone_light", "Dying_Wish" ,"zombie_perk_bottle_jugg");
-		perk_system( "script_model", ( 559, -1364, 120.125  ), "zombie_vending_tombstone_on", ( 0, 180, 0 ), "custom", "mus_perks_doubletap_sting", "Ammo Regen", 2500, "tombstone_light", "Ammo_Regen","zombie_perk_bottle_jugg" );
+		perk_system( "script_model", ( 1229.23, -958, -55.875 ), "zombie_vending_sleight_on", ( 0, 0, 0 ), "custom", "mus_perks_sleight_sting", "Widow's Wine", 3000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight" );
+		perk_system( "script_model", ( 780, 418, -40 ), "zombie_vending_tombstone_on", ( 0, 90, 0 ), "custom", "mus_perks_tombstone_sting", "Thunder Wall", 25000, "tombstone_light", "THUNDER_WALL","zombie_perk_bottle_tombstone" );
+		perk_system( "script_model", ( 1553, 940, -61.875 ), "zombie_vending_doubletap2_on", ( 0, 0, 0 ), "custom", "mus_perks_doubletap_sting", "Ammo Regen", 15000, "doubletap_light", "Ammo_Regen","zombie_perk_bottle_jugg" );
+		perk_system( "script_model", ( 1815.64, 514.282, -55.875 ), "zombie_vending_marathon_on", ( 0, 90, 0 ), "custom", "mus_perks_stamin_sting", "Burn Heart", 15000, "marathon_light", "Burn_Heart","zombie_perk_bottle_marathon" );
+		perk_system( "script_model", ( 2335, -44, -55.875  ), "zombie_vending_revive_on", ( 0, -90, 0 ), "custom", "mus_perks_tombstone_sting", "Dying Wish", 15000, "revive_light", "Dying_Wish","zombie_perk_bottle_revive" );
+		perk_system( "script_model", ( 2515, -693, -55.875 ), "zombie_vending_sleight_on", ( 0, 270, 0 ), "custom", "mus_perks_sleight_sting", "Electric Cherry", 3000, "revive_light", "ELECTRIC_CHERRY","zombie_perk_bottle_sleight" );
+		perk_system( "script_model", ( 1997, -751, -40 ), "zombie_vending_tombstone_on", ( 0, 180, 0 ), "custom", "mus_perks_tombstone_sting", "Assasin's Creed", 18000, "tombstone_light", "Assasins_Creed","zombie_perk_bottle_tombstone" );
+		perk_system( "script_model", ( 981, -163, -55.875 ), "zombie_vending_jugg_on", ( 0, 90, 0 ), "custom", "mus_perks_phd_sting", "PhD Flopper", 8000, "jugger_light", "PHD_FLOPPER","zombie_perk_bottle_jugg" );
+		perk_system( "script_model", ( 545, -1350, 120.125  ), "zombie_vending_sleight_on", ( 0, 180, 0 ), "custom", "mus_perks_mulekick_sting", "Mule Kick", 4000, "sleight_light", "MULE","zombie_perk_bottle_sleight" );
+		perk_system( "script_model", ( 843, -1480, -44 ), "zombie_vending_tombstone_on", ( 0, 90, 0 ), "custom", "mus_perks_tombstone_sting", "Nightfall", 18000, "tombstone_light", "Nightfall", "zombie_perk_bottle_tombstone" );
 	}
 	else if (getdvar ( "mapname" ) == "zm_buried")
 	{
@@ -728,6 +730,23 @@ drawshader_and_shadermove(perk, custom, print, bottle)
 				self iprintln("This Perk damages zombies around the player when they are hit and slows zombies down.");
         	}
 		}
+
+		if (perk == "Nightfall")
+		{
+			self.perk12back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+            self.perk12front = self drawshader( "zombies_rank_4_ded", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+            self.perk12front.name = perk;
+			self.perkarray[self.perkarray.size] = self.perk12front;
+			self.perk12back.name = perk;
+            self.perkarray[self.perkarray.size] = self.perk12back;
+			self.num_perks++;
+			if(print)
+			{
+				self iprintln("^9Nightfall");
+				wait 0.2;
+				self iprintln("This Perk gives the DSR 50 and its upgraded variant a one shot kill at any round.");
+        	}
+		}
 }
 
 custom_get_player_weapon_limit( player )
@@ -1111,13 +1130,25 @@ actor_damage_override_override( inflictor, attacker, damage, flags, meansofdeath
     {
 		return [[level.original_damagecallback]]( inflictor, attacker, damage, flags, meansofdeath, weapon, vpoint, vdir, shitloc, psoffsettime, boneindex );
     }
-	if ( isdefined(attacker) && isplayer( attacker ) && meansofdeath == "MOD_MELEE" && attacker hascustomperk("Assasins_Creed") )
+	if ( isdefined(attacker) && isplayer( attacker ) )
+	
 	{
-		ai_zombies = getaiarray(level.zombie_team);
-		attacker maps/mp/zombies/_zm_score::add_to_player_score(250);
-		attacker.health+=20;
-		return ((ai_zombies[0].health)*2);
+		if ( meansofdeath == "MOD_MELEE" && attacker hascustomperk("Assasins_Creed") )
+		{
+			ai_zombies = getaiarray(level.zombie_team);
+			attacker maps/mp/zombies/_zm_score::add_to_player_score(250);
+			attacker.health+=20;
+			return ((ai_zombies[0].health)*2);
+		}
+		if((weapon=="dsr50_zm" || weapon=="dsr50_upgraded_zm") && attacker hascustomperk("Nightfall") )
+		{
+			ai_zombies = getaiarray(level.zombie_team);
+			attacker maps/mp/zombies/_zm_score::add_to_player_score(250);
+			attacker.health+=20;
+			return ((ai_zombies[0].health)*2);
+		}
 	}
+	
 	return [[level.original_damagecallback]]( inflictor, attacker, damage, flags, meansofdeath, weapon, vpoint, vdir, shitloc, psoffsettime, boneindex );
 }
 
