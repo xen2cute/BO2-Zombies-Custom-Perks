@@ -12,6 +12,7 @@ Download the file in the compiled folder and move it to the scripts\zm folder
 - Electric Cherry - generates an electric shockwave upon reload
 - Ammo Regen - slowly regenerates ammunation 
 - Assasin's Creed - gives melee attacks a one hit kill at any round 
+- Nightfall - gives the DSR-50 a one shot kill at any round
 - Burn Heart - ignore lava damage
 - Downer's Delight - longer bleedout time and use last weapon held in last stand 
 - Victorious Turtle - allows riot shield to block from all directions
