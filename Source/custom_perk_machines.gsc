@@ -162,7 +162,7 @@ onPlayerSpawned()
 	self thread removeperkshader();
     self thread perkboughtcheck();
 	self thread damagehitmarker();
-	//self thread doGetposition();
+	self thread doGetposition();
 	for(;;)
 	{
 		self waittill( "spawned_player" );
@@ -306,8 +306,6 @@ init_custom_map()
 		perk_system( "script_model", (3983.92, 210.777, 4.125), "zombie_vending_doubletap2_on", (0,225,0), "custom", "mus_perks_doubletap_sting", "Assasin's Creed", 18000, "doubletap_light", "Assasins_Creed","zombie_perk_bottle_doubletap");
 		perk_system( "script_model", (6370.25, 700, -135.875), "zombie_vending_sleight_on", (0, 150,0), "custom", "mus_perks_mulekick_sting", "Widow's Wine", 3000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight");
 	}
-	
-	// 100 -1778 -18   z-920
 }
 
 
