@@ -1,5 +1,7 @@
 # BO2-Zombies-Custom-Perk-Machines
 This script will add perk machines throughout the different zombies maps and will allow you to purchase custom perks 
+##Instructions to download 
+Download the file in the compiled folder and move it to the scripts\zm folder
 ### Custom Perks Available
 - PhD Flopper - immunity to fall damage and explosions and create an explosion that kills zombise upon diving to prone
 - Widow's Wine - deals damage to zombeis that attack you and slows them down
