@@ -163,7 +163,7 @@ onPlayerSpawned()
 	self thread removeperkshader();
     self thread perkboughtcheck();
 	self thread damagehitmarker();
-	self thread doGetposition();
+	//self thread doGetposition();
 	for(;;)
 	{
 		self waittill( "spawned_player" );
@@ -173,7 +173,7 @@ onPlayerSpawned()
 		}
 	}
 }
-// Optional features 
+
 healthCounter ()
 {
 	self endon ("disconnect");
