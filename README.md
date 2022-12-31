@@ -2,7 +2,7 @@
 
 
 ## Features 
-- Adds perk machines that give [various custom perks](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/edit/main/README.md#custom-perks-available) to all zombies maps (when finished, currently only added to town, farm, nuketown and buried)
+- Adds perk machines that give [various custom perks](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/blob/main/README.md#custom-perks-available) to all zombies maps (when finished, currently only added to town, farm, nuketown and buried)
 - The source code and its compiled version both include a zombie and health counter (this is mostly just for me) but if you dont want it you can remove it. In the first few lines, you can find comments that will tell you what to remove to get rid of the counters.
 
 
