@@ -1,6 +1,7 @@
 # BO2-Zombies-Custom-Perk-Machines
 This script will add perk machines throughout the different zombies maps and will allow you to purchase custom perks 
-Perks currently only appear on town and buried. The perk machines will be added to the other maps later 
+Perks currently only appear on town, farm, nuketown and buried. The perk machines will be added to the other maps later 
+This script also adds a zombie counter and health counter, this can be easily removed by 
 ## Instructions to download 
 Download the file in the compiled folder and move it to the scripts\zm folder
 
@@ -17,4 +18,6 @@ Download the file in the compiled folder and move it to the scripts\zm folder
 - Downer's Delight - longer bleedout time and use last weapon held in last stand 
 - Victorious Turtle - allows riot shield to block from all directions
 - Mule (on maps that dont have it) - additional primary weapon
+
+## Buried 
 
