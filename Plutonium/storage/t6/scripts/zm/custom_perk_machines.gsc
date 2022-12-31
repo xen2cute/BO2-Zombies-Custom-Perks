@@ -173,6 +173,7 @@ onPlayerSpawned()
 		}
 	}
 }
+// Optional features 
 healthCounter ()
 {
 	self endon ("disconnect");
@@ -209,8 +210,10 @@ zombieCounter()
         wait 0.25;
     }
 }
+//^^OPTIONAL FEATURES^^
 
-doGetposition()
+
+doGetposition() //remove this 
 {
 	self endon ("disconnect"); 
 	self endon ("death"); 
@@ -287,6 +290,7 @@ init_custom_map()
 {
 	if( getdvar( "mapname" ) == "zm_transit" && getdvar( "g_gametype" ) == "zstandard")
 	{
+		//Town
 		perk_system( "script_model", ( 1229.23, -958, -55.875 ), "zombie_vending_sleight_on", ( 0, 0, 0 ), "custom", "mus_perks_sleight_sting", "Widow's Wine", 3000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight" );
 		perk_system( "script_model", ( 780, 418, -40 ), "zombie_vending_tombstone_on", ( 0, 90, 0 ), "custom", "mus_perks_tombstone_sting", "Thunder Wall", 25000, "tombstone_light", "THUNDER_WALL","zombie_perk_bottle_tombstone" );
 		perk_system( "script_model", ( 1553, 940, -61.875 ), "zombie_vending_doubletap2_on", ( 0, 0, 0 ), "custom", "mus_perks_doubletap_sting", "Ammo Regen", 15000, "doubletap_light", "Ammo_Regen","zombie_perk_bottle_jugg" );
@@ -297,6 +301,19 @@ init_custom_map()
 		perk_system( "script_model", ( 981, -163, -55.875 ), "zombie_vending_jugg_on", ( 0, 90, 0 ), "custom", "mus_perks_phd_sting", "PhD Flopper", 8000, "jugger_light", "PHD_FLOPPER","zombie_perk_bottle_jugg" );
 		perk_system( "script_model", ( 545, -1350, 120.125  ), "zombie_vending_sleight_on", ( 0, 180, 0 ), "custom", "mus_perks_mulekick_sting", "Mule Kick", 4000, "sleight_light", "MULE","zombie_perk_bottle_sleight" );
 		perk_system( "script_model", ( 843, -1480, -44 ), "zombie_vending_tombstone_on", ( 0, 90, 0 ), "custom", "mus_perks_tombstone_sting", "Nightfall", 18000, "tombstone_light", "Nightfall", "zombie_perk_bottle_tombstone" );
+		//Farm 
+		perk_system( "script_model", ( 8808, -5728, 50 ), "zombie_vending_sleight_on", ( 0, 270, 0 ), "custom", "mus_perks_sleight_sting", "Widow's Wine", 3000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight" );
+		perk_system( "script_model", ( 8256, -6396, 92.6 ), "zombie_vending_tombstone_on", ( 0, 110, 0 ), "custom", "mus_perks_tombstone_sting", "Thunder Wall", 25000, "tombstone_light", "THUNDER_WALL","zombie_perk_bottle_tombstone" );
+		perk_system( "script_model", ( 7767, -6329, 117 ), "zombie_vending_doubletap2_on", ( 0, 110, 0 ), "custom", "mus_perks_doubletap_sting", "Ammo Regen", 15000, "doubletap_light", "Ammo_Regen","zombie_perk_bottle_jugg" );
+		perk_system( "script_model", ( 7921, -5408, 48 ), "zombie_vending_marathon_on", ( 0, 180, 0 ), "custom", "mus_perks_stamin_sting", "Burn Heart", 15000, "marathon_light", "Burn_Heart","zombie_perk_bottle_marathon" );
+		perk_system( "script_model", ( 8060, -5355, 264 ), "zombie_vending_revive_on", ( 0, 115, 0 ), "custom", "mus_perks_tombstone_sting", "Dying Wish", 15000, "revive_light", "Dying_Wish","zombie_perk_bottle_revive" );
+		perk_system( "script_model", ( 7848, -4878, 47 ), "zombie_vending_sleight_on", ( 0, 270, 0 ), "custom", "mus_perks_sleight_sting", "Electric Cherry", 3000, "revive_light", "ELECTRIC_CHERRY","zombie_perk_bottle_sleight" );
+		perk_system( "script_model", ( 8492, -5895, 51 ), "zombie_vending_tombstone_on", ( 0, 0, 0 ), "custom", "mus_perks_tombstone_sting", "Assasin's Creed", 18000, "tombstone_light", "Assasins_Creed","zombie_perk_bottle_tombstone" );
+		perk_system( "script_model", ( 8460, -4603, 48 ), "zombie_vending_jugg_on", ( 0, 0, 0 ), "custom", "mus_perks_phd_sting", "PhD Flopper", 8000, "jugger_light", "PHD_FLOPPER","zombie_perk_bottle_jugg" );
+		perk_system( "script_model", ( 7057, -5728, -48 ), "zombie_vending_sleight_on", ( 0, 90, 0 ), "custom", "mus_perks_mulekick_sting", "Mule Kick", 4000, "sleight_light", "MULE","zombie_perk_bottle_sleight" );
+		perk_system( "script_model", ( 7938, -4675, 48 ), "zombie_vending_tombstone_on", ( 0, 45, 0 ), "custom", "mus_perks_tombstone_sting", "Nightfall", 18000, "tombstone_light", "Nightfall", "zombie_perk_bottle_tombstone" );
+
+		
 	}
 	else if (getdvar ( "mapname" ) == "zm_buried")
 	{
@@ -307,6 +324,19 @@ init_custom_map()
 		perk_system( "script_model", (1163.82, 592.259, -17.6288), "zombie_vending_doubletap2_on", (0, 340, 0), "custom", "mus_perks_doubletap_sting", "Ammo Regen", 15000, "doubletap_light", "Ammo_Regen","zombie_perk_bottle_doubletap");
 		perk_system( "script_model", (3983.92, 210.777, 4.125), "zombie_vending_doubletap2_on", (0,225,0), "custom", "mus_perks_doubletap_sting", "Assasin's Creed", 18000, "doubletap_light", "Assasins_Creed","zombie_perk_bottle_doubletap");
 		perk_system( "script_model", (6370.25, 700, -135.875), "zombie_vending_sleight_on", (0, 150,0), "custom", "mus_perks_mulekick_sting", "Widow's Wine", 3000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight");
+	}
+	else if (getdvar( "mapname" ) == "zm_nuked") 
+	{	
+		
+		perk_system( "script_model", ( 632, 418, -57 ), "zombie_vending_sleight_on", ( 0, 190, 0 ), "custom", "mus_perks_sleight_sting", "Widow's Wine", 3000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight" );
+		perk_system( "script_model", ( 1919, 697, -64 ), "zombie_vending_doubletap2_on", ( 0, 330, 0 ), "custom", "mus_perks_tombstone_sting", "Thunder Wall", 25000, "doubletap_light", "THUNDER_WALL","zombie_perk_bottle_doubletap" );
+		perk_system( "script_model", ( 701, 358, 80	 ), "zombie_vending_doubletap2_on", ( 0, 20, 0 ), "custom", "mus_perks_doubletap_sting", "Ammo Regen", 15000, "doubletap_light", "Ammo_Regen","zombie_perk_bottle_jugg" );
+		perk_system( "script_model", ( -998, 211, -34 ), "zombie_vending_revive_on", ( 0, 250, 0 ), "custom", "mus_perks_tombstone_sting", "Dying Wish", 15000, "revive_light", "Dying_Wish","zombie_perk_bottle_revive" );
+		perk_system( "script_model", ( 699, 560.7, -57 ), "zombie_vending_sleight_on", ( 0, 105, 0 ), "custom", "mus_perks_sleight_sting", "Electric Cherry", 3000, "revive_light", "ELECTRIC_CHERRY","zombie_perk_bottle_sleight" );
+		perk_system( "script_model", ( -1830, 686, -48 ), "zombie_vending_doubletap2_on", ( 0, 340, 0 ), "custom", "mus_perks_tombstone_sting", "Assasin's Creed", 18000, "doubletap_light", "Assasins_Creed","zombie_perk_bottle_doubletap" );
+		perk_system( "script_model", ( -934, 271, -55 ), "zombie_vending_jugg_on", ( 0, 75, 0 ), "custom", "mus_perks_jugg_sting", "PhD Flopper", 8000, "jugger_light", "PHD_FLOPPER","zombie_perk_bottle_jugg" );
+		perk_system( "script_model", (  -897.749, -170, -60), "zombie_vending_sleight_on", ( 0, 110, 0 ), "custom", "mus_perks_mulekick_sting", "Mule Kick", 4000, "sleight_light", "MULE","zombie_perk_bottle_sleight" );
+		perk_system( "script_model", ( -868, 352, 85 ), "zombie_vending_doubletap2_on", ( 0, 160, 0 ), "custom", "mus_perks_tombstone_sting", "Nightfall", 18000, "doubletap_light", "Nightfall", "zombie_perk_bottle_doubletap" );
 	}
 }
 
