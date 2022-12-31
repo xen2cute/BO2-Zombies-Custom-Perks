@@ -27,6 +27,7 @@
 
 #### What the perk hud looks like
 ![20221231204052_1](https://user-images.githubusercontent.com/71220264/210155361-a4d6941e-3299-4caf-9909-3522206d3d75.jpg)
+
 ## Buried 
 
 ![buried-custom-perk-gif](https://user-images.githubusercontent.com/71220264/210156151-43015c06-f0c2-461c-8be0-90a054351058.gif)
@@ -35,7 +36,16 @@
 
 ![town_custom_perk](https://user-images.githubusercontent.com/71220264/210156222-0e7cbd7c-ad59-4d6b-b730-05ced39adf46.gif)
 
-
 ## Farm
 
+![farm-custom-perks](https://user-images.githubusercontent.com/71220264/210157415-965042cf-6e04-4d80-9a01-0e796fac27cf.gif)
+
 ## Nuketown
+
+![nuketown-custom-perks](https://user-images.githubusercontent.com/71220264/210157416-def4b24f-c561-4b64-88cf-e337dd360490.gif)
+
+## MOTD
+
+## Origins
+
+## TranZit 
