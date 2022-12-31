@@ -97,8 +97,44 @@ Thunder Wall
 
 ![20221231203905_1](https://user-images.githubusercontent.com/71220264/210155360-cb24d5a2-f9e2-4114-ba07-329fec2bed2b.jpg)
 
-##Farm
+## Farm
 
-##Nuketown
+## Nuketown
+
+PhD Flopper 
+
+![image](https://user-images.githubusercontent.com/71220264/210155673-3149eccf-a135-499c-9fea-a9e3aea2b433.png)
+
+Widow's Wine
+
+![image](https://user-images.githubusercontent.com/71220264/210155679-b2d04b6d-b8a8-442f-860b-ac75b0283614.png)
+
+Mule Kick
+
+![image](https://user-images.githubusercontent.com/71220264/210155692-c55849eb-479e-4d9e-bd7b-3b17c6e9f710.png)
+
+Nightfall
+
+![image](https://user-images.githubusercontent.com/71220264/210155700-97e4a3c1-efbd-4dd4-9fe1-f101a464458d.png)
+
+Assasin's Creed
+
+![image](https://user-images.githubusercontent.com/71220264/210155727-1d4bfb1f-4227-413e-ac76-32718eb465fc.png)
+
+Dying Wish
+
+![image](https://user-images.githubusercontent.com/71220264/210155745-22e54ea3-49cd-4f79-bda5-291b4793be45.png)
+
+Ammo Regen
+
+![image](https://user-images.githubusercontent.com/71220264/210155757-9c7ec408-01e7-44dd-86b1-791114e21d28.png)
+
+Electric Cherry
+
+![image](https://user-images.githubusercontent.com/71220264/210155767-648e1c4b-07b1-4e0e-ae9e-ea014c775af2.png)
+
+Thunder Wall
+
+![image](https://user-images.githubusercontent.com/71220264/210155781-b1e21e81-9bf9-4945-a025-47ee0f80c24a.png)
 
 
