@@ -1,4 +1,4 @@
-# BO2-Zombies-Custom-Perk-Machines
+# BO2 Zombies Custom Perk Machines
 
 
 ## Features 
