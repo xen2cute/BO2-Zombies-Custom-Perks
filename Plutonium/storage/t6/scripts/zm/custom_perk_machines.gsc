@@ -144,8 +144,8 @@ onPlayerConnect()
 	{
 		level waittill( "connected", player);
 		player thread onPlayerSpawned();
-		player thread healthCounter();  // remove these two lines of code to remove 
-		player thread zombieCounter();  // the zombie and health counter. Then recompile with GSC Toolkit.
+		//player thread healthCounter();  // remove these two lines of code to remove 
+		//player thread zombieCounter();  // the zombie and health counter. Then recompile with GSC Toolkit.
 	}
 }
 onPlayerSpawned()
