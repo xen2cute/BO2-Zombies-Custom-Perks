@@ -159,7 +159,7 @@ onPlayerSpawned()
     self.perk_reminder = 0;
     self.perk_count = 0;
     self.num_perks = 0;
-	self.score = 500000;
+	//self.score = 500000;
 	self thread removeperkshader();
     self thread perkboughtcheck();
 	self thread damagehitmarker();
