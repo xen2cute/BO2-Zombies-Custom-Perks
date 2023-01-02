@@ -210,10 +210,10 @@ zombieCounter()
         wait 0.25;
     }
 }
-//^^OPTIONAL FEATURES^^
 
 
-doGetposition() //remove this 
+
+doGetposition() 
 {
 	self endon ("disconnect"); 
 	self endon ("death"); 
@@ -389,14 +389,14 @@ playchalkfx(effect, origin, angles)
 
 perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bottle)
 {
-	col = spawn( script, pos);
-	col setmodel( model );
-	col.angles = angles;
-	x = spawn( script, pos );
-	x setmodel( "zm_collision_perks1" );
-	x.angles = angles;
-    col thread buy_system( perk, sound, name, cost, type, bottle );
-    col thread play_fx( fx );
+	perkmachine = spawn( script, pos);
+	perkmachine setmodel( model );
+	perkmachine.angles = angles;
+	collision= spawn( script, pos );
+	collision setmodel( "collision_geo_32x32x128_standard" );
+	collision.angles = angles;
+    perkmachine thread buy_system( perk, sound, name, cost, type, bottle );
+    perkmachine thread play_fx( fx );
 }
 
 buy_system( perk, sound, name, cost, type, bottle)
@@ -465,11 +465,6 @@ removeperkshader()
     }
 }
 
-setPlayerDvar(player, dvar, value) 
-{
-    thedvar = player getXUID() + "_" + dvar;
-    setDvar(thedvar, value);
-}
 removeallcustomshader()
 {
 	for(i = 0; i < self.perkarray.size; i++)
@@ -777,6 +772,16 @@ drawshader_and_shadermove(perk, custom, print, bottle)
 				self iprintln("This Perk gives the DSR 50 and its upgraded variant a one shot kill at any round.");
         	}
 		}
+		if (perk == "Bullet Fury")
+		{
+			self.perk13back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+            self.perk13front = self drawshader( "", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+            self.perk13front.name = perk;
+			self.perkarray[self.perkarray.size] = self.perk13front;
+			self.perk13back.name = perk;
+            self.perkarray[self.perkarray.size] = self.perk13back;
+			self.num_perks++;
+
 }
 
 custom_get_player_weapon_limit( player )
@@ -808,7 +813,7 @@ ammoregen()
 		{
 			stockcount = self getweaponammostock( self GetCurrentWeapon() );
 			self setWeaponAmmostock( self GetCurrentWeapon(), stockcount + 1 );
-			wait 0.5;
+			wait 1;
 		}
 		wait 0.1;
 	}
@@ -1240,8 +1245,7 @@ thunder_wall_checker()
 		self.perk6back.alpha = 0.3;
         self.perk6front.alpha = 0.4;
 		self.thunder_wall_on_cooldown = 1;
-		thunder_wall_cooldown=10;
-		wait thunder_wall_cooldown;
+		wait 180;
 	}
 }
 	
