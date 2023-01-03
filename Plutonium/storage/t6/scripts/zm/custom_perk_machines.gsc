@@ -163,10 +163,14 @@ onPlayerSpawned()
 	self thread removeperkshader();
     self thread perkboughtcheck();
 	self thread damagehitmarker();
+	//self thread setspeed();
 	//self thread doGetposition();
 	for(;;)
 	{
 		self waittill( "spawned_player" );
+		self IPrintLnBold( "Max Health Boosted from 100HP to 150HP");
+		self.maxhealth=150;
+		self.health=self.maxhealth;
 		if(self.score < 2500)
 		{
 			self.score = 2500;
@@ -285,7 +289,10 @@ hitmark()
 		}
 	}
 }	
-
+setspeed()
+{
+	self SetMoveSpeedScale(1.5);
+}
 init_custom_map()
 {
 	if( getdvar( "mapname" ) == "zm_transit" && getdvar( "g_gametype" ) == "zstandard")
@@ -302,6 +309,7 @@ init_custom_map()
 		perk_system( "script_model", ( 545, -1350, 120.125  ), "zombie_vending_sleight_on", ( 0, 180, 0 ), "custom", "mus_perks_mulekick_sting", "Mule Kick", 4000, "sleight_light", "MULE","zombie_perk_bottle_sleight" );
 		perk_system( "script_model", ( 843, -1480, -44 ), "zombie_vending_tombstone_on", ( 0, 90, 0 ), "custom", "mus_perks_tombstone_sting", "Nightfall", 18000, "tombstone_light", "Nightfall", "zombie_perk_bottle_tombstone" );
 		//Farm 
+		//pap();
 		perk_system( "script_model", ( 8256, -6396, 92.6), "zombie_vending_sleight_on", ( 0, 120, 0 ), "custom", "mus_perks_sleight_sting", "Widow's Wine", 3000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight" );
 		perk_system( "script_model", ( 7057, -5728, -48), "zombie_vending_marathon_on", ( 0, 90, 0 ), "custom", "mus_perks_tombstone_sting", "Thunder Wall", 25000, "tombstone_light", "THUNDER_WALL","zombie_perk_bottle_tombstone" );
 		perk_system( "script_model", ( 8460, -4593, 48), "zombie_vending_doubletap2_on", ( 0, 0, 0 ), "custom", "mus_perks_doubletap_sting", "Ammo Regen", 15000, "doubletap_light", "Ammo_Regen","zombie_perk_bottle_jugg" );
@@ -386,6 +394,17 @@ playchalkfx(effect, origin, angles)
     level waittill("connected", player);
     fx Delete();
 }
+/*
+pap_system(pos, angles)
+{
+	pap_machine = spawn("script_model", pos);
+	pap_machine setmodel("p6_anim_zm_buildable_pap_on");
+	pap_machine.angles = angles;
+	collision=spawn("script_model", pos);
+	collision setmodel("collision_geo_32x32x128_standard");
+	pap_machine thread pap_buy_system();
+}
+*/
 
 perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bottle)
 {
@@ -398,7 +417,43 @@ perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bott
     perkmachine thread buy_system( perk, sound, name, cost, type, bottle );
     perkmachine thread play_fx( fx );
 }
-
+/*
+pap_buy_system()
+{
+	self endon( "game_ended")
+	while( 1 )
+	{
+		foreach( player in level.players )
+        {
+            if(!player.machine_is_in_use)
+			{
+                if( distance( self.origin, player.origin ) <= 70 )
+                {
+				    player thread SpawnHint( self.origin, 30, 30, "HINT_ACTIVATE", "Hold ^3&&1^7 to upgrade your weapon. Cost: 5000" );
+                    if(player usebuttonpressed() && !player hasperk(perk) && !player hascustomperk(perk) && player.score >= cost && !player maps/mp/zombies/_zm_laststand::player_is_in_laststand())
+                    {
+                        player.machine_is_in_use = 1;
+                        player playsound( "zmb_cha_ching" );
+                        player.score -= cost;
+                        player playsound( sound );
+			    	    
+						wait 4;
+                    	player.machine_is_in_use = 0;
+					}
+					else
+                    {
+                        if( player usebuttonpressed() && player.score < cost )
+                        {
+                            player maps/mp/zombies/_zm_audio::create_and_play_dialog( "general", "perk_deny", undefined, 0 );
+                        }
+                    }
+                }
+            }
+        }
+        wait 0.1;
+    }
+}
+*/
 buy_system( perk, sound, name, cost, type, bottle)
 {
     self endon( "game_ended" );
@@ -772,16 +827,6 @@ drawshader_and_shadermove(perk, custom, print, bottle)
 				self iprintln("This Perk gives the DSR 50 and its upgraded variant a one shot kill at any round.");
         	}
 		}
-		if (perk == "Bullet Fury")
-		{
-			self.perk13back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
-            self.perk13front = self drawshader( "", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk13front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk13front;
-			self.perk13back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk13back;
-			self.num_perks++;
-
 }
 
 custom_get_player_weapon_limit( player )
@@ -948,24 +993,6 @@ DDown()
 	}
 }
 
-doGivePerk(perk)
-{
-    self endon("disconnect");
-    self endon("death");
-    level endon("game_ended");
-    self endon("perk_abort_drinking");
-    if (!(self hasperk(perk) || (self maps/mp/zombies/_zm_perks::has_perk_paused(perk))))
-    {
-        gun = self maps/mp/zombies/_zm_perks::perk_give_bottle_begin(perk);
-        evt = self waittill_any_return("fake_death", "death", "player_downed", "weapon_change_complete");
-        if (evt == "weapon_change_complete")
-            self thread maps/mp/zombies/_zm_perks::wait_give_perk(perk, 1);
-        self maps/mp/zombies/_zm_perks::perk_give_bottle_end(gun, perk);
-        if (self maps/mp/zombies/_zm_laststand::player_is_in_laststand() || isDefined(self.intermission) && self.intermission)
-            return;
-        self notify("burp");
-    }
-}
 
 
 SpawnHint( origin, width, height, cursorhint, string )
