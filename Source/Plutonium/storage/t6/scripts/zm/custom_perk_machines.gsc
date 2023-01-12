@@ -289,13 +289,7 @@ init_custom_map()
 	}
 	else if (getdvar ( "mapname" ) == "zm_buried")
 	{
-		perk_system( "script_model", (-732.102, 20.899, -28.9773), "zombie_vending_marathon_on", (0, 135, 0), "custom", "mus_perks_stamin_sting", "Thunder Wall", 25000, "marathon_light", "THUNDER_WALL","zombie_perk_bottle_marathon");
-		perk_system( "script_model", (-37, -735, 8.125), "p6_zm_vending_vultureaid_on", (0, 180, 0), "custom", "mus_perks_vulture_sting", "Dying Wish", 15000, "jugger_light", "Dying_Wish","zombie_perk_bottle_vulture");
-		perk_system( "script_model", (890.359, -850.248, -22.0684), "zombie_vending_sleight_on", (0, 270, 0), "custom", "mus_perks_speed_sting", "Electric Cherry", 3000, "revive_light", "ELECTRIC_CHERRY","zombie_perk_bottle_revive");
-		perk_system( "script_model", (95.46, 560.359, 8.125), "zombie_vending_jugg", (0, 45, 0), "custom", "mus_perks_phd_sting", "PhD Flopper", 8000, "jugger_light", "PHD_FLOPPER","zombie_perk_bottle_jugg");
-		perk_system( "script_model", (1163.82, 592.259, -17.6288), "zombie_vending_doubletap2_on", (0, 340, 0), "custom", "mus_perks_doubletap_sting", "Ammo Regen", 15000, "doubletap_light", "Ammo_Regen","zombie_perk_bottle_doubletap");
-		perk_system( "script_model", (3983.92, 210.777, 4.125), "zombie_vending_doubletap2_on", (0,225,0), "custom", "mus_perks_doubletap_sting", "Rampage", 18000, "doubletap_light", "Rampage","zombie_perk_bottle_doubletap");
-		perk_system( "script_model", (6370.25, 700, -135.875), "zombie_vending_sleight_on", (0, 150,0), "custom", "mus_perks_mulekick_sting", "Widow's Wine", 3000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight");
+		continue;
 	}
 	else if (getdvar( "mapname" ) == "zm_nuked") 
 	{	
