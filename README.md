@@ -71,6 +71,4 @@ No pictures yet
 
 ### Die Rise
 
-## TranZit 
 
-Perk-a-colas not added
