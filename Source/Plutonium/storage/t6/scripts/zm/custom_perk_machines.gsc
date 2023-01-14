@@ -328,6 +328,38 @@ init_custom_map()
 		perk_system( "script_model", (  -897.749, -170, -60), "zombie_vending_sleight_on", ( 0, 110, 0 ), "custom", "mus_perks_mulekick_sting", "Mule Kick", 4000, "sleight_light", "MULE","zombie_perk_bottle_sleight" );
 		perk_system( "script_model", ( -868, 352, 85 ), "zombie_vending_doubletap2_on", ( 0, 160, 0 ), "custom", "mus_perks_tombstone_sting", "Rampage", 18000, "doubletap_light", "Rampage", "zombie_perk_bottle_doubletap" );
 	}
+	else if (getdvar( "mapname" ) == "zm_tomb") //Origins
+	{
+		//Dying Wish, Downer's Delight, Rampage, Ammo Regen, Headshot Mayhem, Executioner's Edge, Thunder Wall, Bloodthirst, Guarding Strike , Widow's Wine
+		//gen 2 
+		perk_system( "script_model", (204, 2447, -127), "zombie_vending_jugg_on", ( 0, 50, 0 ), "custom", "mus_perks_sleight_sting", "Downer's Delight", 3000, "revive_light", "Downers_Delight","zombie_perk_bottle_jugg" );
+		//excv site level 1
+		perk_system( "script_model", (446, -144, -240), "zombie_vending_marathon_on", ( 0, 251, 0 ), "custom", "mus_perks_sleight_sting", "Rampage", 10000, "doubletap_light", "Rampage","zombie_perk_bottle_marathon" );
+		//excv site
+		perk_system( "script_model", (182, -108, -621), "zombie_vending_jugg_on", ( 0, 180, 0 ), "custom", "mus_perks_sleight_sting", "Guarding Strike", 10000, "sleight_light", "Guarding_Strike","zombie_perk_bottle_jugg" );
+		//Gen 5 Cellar
+		perk_system( "script_model", (-2708, 360, 48), "zombie_vending_jugg_on", ( 0, 0, 0 ), "custom", "mus_perks_sleight_sting", "Dying Wish", 20000, "revive_light", "Dying_Wish","zombie_perk_bottle_jugg" );
+		//excv site
+		perk_system( "script_model", (343, -323, -365), "zombie_vending_sleight_on", ( 0, 219, 0 ), "custom", "mus_perks_sleight_sting", "Bloodthirst", 2500, "jugger_light", "Bloodthirst","zombie_perk_bottle_sleight" );
+		//Tank Station
+		perk_system( "script_model", (-584, 4436, -350), "zombie_vending_sleight_on", ( 0, 90, 0 ), "custom", "mus_perks_sleight_sting", "Widow's Wine", 4000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight" );
+		//Gen 6 Tank station
+		perk_system( "script_model", (1121, -2717, 50), "zombie_vending_marathon_on", ( 0, 284, 0 ), "custom", "mus_perks_sleight_sting", "Ammo Regen", 12000, "marathon_light", "Ammo_Regen","zombie_perk_bottle_marathon" );
+		//excavation site level 1
+		perk_system( "script_model", (231, -409, -237), "zombie_vending_marathon_on", ( 0, 201, 0 ), "custom", "mus_perks_sleight_sting", "Executioner's Edge", 15000, "marathon_light", "Executioners_Edge","zombie_perk_bottle_marathon" );
+		//staff station
+		perk_system( "script_model", (-246, 162, -751), "zombie_vending_marathon_on", ( 0, 53, 0 ), "custom", "mus_perks_sleight_sting", "Headshot Mayhem", 30000, "marathon_light", "Headshot_Mayhem","zombie_perk_bottle_marathon" );
+		//Gen 3 Bunker 1
+		perk_system( "script_model", (2368, 3610, -292), "zombie_vending_marathon_on", ( 0, 270, 0 ), "custom", "mus_perks_sleight_sting", "Thunder Wall", 20000, "marathon_light", "THUNDER_WALL","zombie_perk_bottle_marathon" );
+	}
+	else if (getdvar( "mapname" ) == "zm_prison") //MOTD
+	{
+		return;
+	}
+	else if (getdvar( "mapname" ) == "zm_highrise") //Die rise high rise idk 
+	{
+		return;
+	}
 }
 
 
@@ -919,22 +951,23 @@ doPHDdive() //credit to extinct
 	{
 		if(isDefined(self.divetoprone) && self.divetoprone)
 		{
-			if(self isOnGround() && (self hascustomperk("PHD_FLOPPER")))
+			if(self isOnGround())
 			{
-				points=0;
-				explosionfx = level._effect["fx_default_explosion"];
-				self playSound("zmb_phdflop_explo");
-				playfx(explosionfx, self.origin);
-				zombies = getAiArray(level.zombie_team);
-				foreach(zombie in zombies)
+				if (self hascustomperk("PHD_FLOPPER") || self hasPerk("specialty_flakjacket"))
 				{
-					if(distance(zombie.origin, self.origin) < 300)
+					explosionfx = level._effect["fx_default_explosion"];
+					self playSound("zmb_phdflop_explo");
+					playfx(explosionfx, self.origin);
+					zombies = getAiArray(level.zombie_team);
+					foreach(zombie in zombies)
 					{
-						zombie doDamage(zombie.health * 2, zombie.origin, self);
-						points+=50;
+						if(distance(zombie.origin, self.origin) < 300)
+						{
+							zombie doDamage(zombie.health * 2, zombie.origin, self);
+						}
 					}
+					wait .3;
 				}
-				wait .3;
 			}
 		}
 		wait .05;
