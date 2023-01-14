@@ -40,36 +40,36 @@ Checklist:
 - Headshot Mayhem - Extra damage and points for headshots. 15% chance for a headshot kill to explode and kill surrounding zombies
 
 
-#Pictures of the Perk-A-Colas
-## TranZit 
+## Pictures of the Perk-A-Colas
+### TranZit 
 
 Perk-a-colas not added yet
 
-## Buried 
+### Buried 
 
 No pictures yet
 
-## Town 
+### Town 
 
 No pictures yet
 
-## Farm
+### Farm
 
 ![farm-custom-perks](https://user-images.githubusercontent.com/71220264/210157415-965042cf-6e04-4d80-9a01-0e796fac27cf.gif)
 
-## Nuketown
+### Nuketown
 
 ![nuketown-custom-perks](https://user-images.githubusercontent.com/71220264/210157416-def4b24f-c561-4b64-88cf-e337dd360490.gif)
 
-## MOTD
+### MOTD
 
 Perk-a-colas not added
 
-## Origins
+### Origins
 
 No pictures yet
 
-## Die Rise
+### Die Rise
 
 ## TranZit 
 
