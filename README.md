@@ -5,7 +5,7 @@
 - Adds Perk-A-Colas with custom perks to all the zombies maps. 
 
 Checklist:
-- ❌ TranZit
+- ✅ TranZit
 - ✅ Town 
 - ✅ Farm 
 - ✅ Nuketown
@@ -43,7 +43,7 @@ Checklist:
 ## Pictures of the Perk-A-Colas
 ### TranZit 
 
-Perk-a-colas not added yet
+No pictures yet
 
 ### Buried 
 
