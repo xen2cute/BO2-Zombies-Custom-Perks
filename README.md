@@ -19,7 +19,7 @@ Checklist:
 
 ## Instructions to download 
 1. Download the file in the precompiled folder
-2. Move the file to localappdata%\Plutonium\storage\t6\scripts\zm
+2. Move the file to %localappdata%\Plutonium\storage\t6\scripts\zm
 
 ### Custom Perks Available
 - PhD Flopper - immunity to fall damage and explosions and create an explosion that kills zombise upon diving to prone
