@@ -2,7 +2,19 @@
 
 
 ## Features 
-- Adds perk machines that give [various custom perks](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/blob/main/README.md#custom-perks-available) to all zombies maps (when finished, currently only added to town, farm, nuketown and buried)
+- Adds Perk-A-Colas with custom perks to all the zombies maps. 
+
+Checklist:
+- ❌ TranZit
+- ✅ Town 
+- ✅ Farm 
+- ✅ Nuketown
+- ❌ Mob of The Dead 
+- ✅ Buried 
+- ✅ Origins (the locations are a bit messy)
+- ❌ Die Rise
+
+
 
 
 ## Instructions to download 
@@ -16,24 +28,30 @@
 - Dying Wish - gives a second chance if you die
 - Electric Cherry - generates an electric shockwave upon reload
 - Ammo Regen - slowly regenerates ammunation 
-
-- Assasin's Creed - gives melee attacks a one hit kill at any round 
+- Executioner's Edge- gives melee attacks a one hit kill at any round 
 - Nightfall - gives the DSR-50 a one shot kill at any round
 - Burn Heart - ignore lava damage
 - Downer's Delight - longer bleedout time and use last weapon held in last stand 
 - Victorious Turtle - allows riot shield to block from all directions
 - Mule (on maps that dont have it) - additional primary weapon
+- Bloodthirst - Gain health when killing zombies and can reach a max of 320 health 
+- Rampage - 20% chance of gaining one shot kill for 15 seconds upon killing a zombie 
+- Guarding Strike - 10% chance of becoming invulnerable for 5 seconds upon killing a zombie
+- Headshot Mayhem - Extra damage and points for headshots. 15% chance for a headshot kill to explode and kill surrounding zombies
 
-#### What the perk hud looks like
-![20221231204052_1](https://user-images.githubusercontent.com/71220264/210155361-a4d6941e-3299-4caf-9909-3522206d3d75.jpg)
+
+#Pictures of the Perk-A-Colas
+## TranZit 
+
+Perk-a-colas not added yet
 
 ## Buried 
 
-![buried-custom-perk-gif](https://user-images.githubusercontent.com/71220264/210156151-43015c06-f0c2-461c-8be0-90a054351058.gif)
+No pictures yet
 
 ## Town 
 
-![town_custom_perk](https://user-images.githubusercontent.com/71220264/210156222-0e7cbd7c-ad59-4d6b-b730-05ced39adf46.gif)
+No pictures yet
 
 ## Farm
 
@@ -45,6 +63,14 @@
 
 ## MOTD
 
+Perk-a-colas not added
+
 ## Origins
 
+No pictures yet
+
+## Die Rise
+
 ## TranZit 
+
+Perk-a-colas not added
