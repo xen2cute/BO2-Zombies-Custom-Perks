@@ -413,7 +413,7 @@ init_custom_map()
 		return;
 	}
 	//most likely never going to do this shit map
-	else if (getdvar( "mapname" ) == "zm_highrise") //Die rise high rise idk 
+	else if (getdvar( "mapname" ) == "zm_highrise") //Die rise 
 	{
 		return;
 	}
