@@ -18,7 +18,7 @@ Checklist:
 
 
 ## Instructions to download 
-1. Download the file in the precompiled folder
+1. Download the file in the compiled folder
 2. Move the file to %localappdata%\Plutonium\storage\t6\scripts\zm
 
 ### Custom Perks Available
@@ -72,13 +72,13 @@ No pictures yet
 
 Perk-a-colas not added yet
 
-## Other notes
-For Die Rise and MOTD, although I haven't added the perk machines yet, they can still be obtained by using the perk test function, when you spawn in you can press a certain button and you will be given all the perks. I can't guarantee that everything will work correctly however. 
 
-If you wish to change the position of the perk add these two functions below and add this line to the OnPlayerSpawned function.
+## How to modify perk machine position
+If you wish to change the position of the perk machines or add new ones, add this line to your OnPlayerSpawned function:
 ```
 self thread doGetposition();
 ```
+and add these two functions to the code:
 ```
 doGetposition() 
 {
@@ -112,3 +112,35 @@ corrected_angles(angles)
 	return angles;
 }
 ```
+With this you can get the position and angles required to spawn a perk machine in the correct place. The next step is to edit the lines of code that look like this that can be found under the init_custom_map() function:
+```
+perk_system( "script_model", (847, -1037, 120), "zombie_vending_revive_on", ( 0, 326, 0 ), "custom", "mus_perks_sleight_sting", "Downer's Delight", 3000, "revive_light", "Downers_Delight","zombie_perk_bottle_revive" );
+```
+```
+perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bottle)
+```
+
+```(847, -1037, 1200)``` - the position
+
+```( 0, 326, 0)``` - the angle, you will likely only need to change the middle value. 
+
+The position and angles can be found using the code above.
+
+Other parameters:
+
+```"zombie_vending_revive_on" ```- the model to be used (only models that exist in the map can be used, use this [model list](https://pastebin.com/raw/bH8weGDP) to help
+
+```"Downer's Delight" ``` - the name that appears in the hint when you approach the perk machine
+
+```"Downers_Delight" ```- the actual perk, the names of which can be found under the drawshader_and_shadermove() function
+
+```"zombie_perk_bottle_revive" ```- the perk bottle, the bottles names can be found [here](https://pastebin.com/aKBQg9RJ)
+
+
+
+
+
+## Other notes
+For Die Rise and MOTD, although I haven't added the perk machines yet, they can still be obtained by using the perk test function, when you spawn in you can press a certain button and you will be given all the perks. I can't guarantee that everything will work correctly however. 
+## Credits
+whydoesanyonecare. I took the base code for the perk systems from [dog town plutonium](https://github.com/whydoesanyonecare/Plutonium-versions-of-T6-custom-survival-maps/blob/main/dog_town_plutonium.gsc)
