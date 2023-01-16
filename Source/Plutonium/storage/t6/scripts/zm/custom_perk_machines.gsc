@@ -171,11 +171,34 @@ onPlayerSpawned()
 	self thread removeperkshader();
     self thread perkboughtcheck();
 	self thread damagehitmarker();
-	
+	self thread test_perks();
 }
 
 
 
+test_perks()
+{
+	self endon("death");
+	self endon("disconnected");
+	level endon("end_Game");
+	wait 10;
+	
+	self iprintlnbold("^7Press ^1[{+smoke}] ^7to give all custom perks");
+	for(;;)
+	{
+		if(self secondaryoffhandbuttonpressed() && !self.perkaholic_activated)
+		{
+			if (!self.perks_given)
+			{
+				self.perkaholic_activated = 1;
+				self thread Perkaholic();
+				self.perks_given = 1;
+			}
+			
+        }
+		wait .05;
+	}
+}
 
 
 damagehitmarker()
@@ -680,266 +703,265 @@ drawshader_and_shadermove(perk, custom, print, bottle)
 	{
     	self.perkarray[i].x = self.perkarray[i].x + 30;
 	}
-        if(perk == "Downers_Delight")
-        {
-            self.perk1back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );  
-            self.perk1front = self drawshader( "waypoint_revive", x, y, 23, 23, ( 0, 1, 1 ), 100, 0 ); 
-            self.perk1front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk1front;
-			self.perk1back.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk1back;
-			self.num_perks++;
-			self thread DDown();
-			if(print)
-			{
-				self iprintln("^9Downer's Delight");
-				wait 0.2;
-				self iprintln("This Perk will increase players bleedout time by 10 seconds and current weapons is used in laststand.");
-			}
+	if(perk == "Downers_Delight")
+	{
+		self.perk1back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );  
+		self.perk1front = self drawshader( "waypoint_revive", x, y, 23, 23, ( 0, 1, 1 ), 100, 0 ); 
+		self.perk1front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk1front;
+		self.perk1back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk1back;
+		self.num_perks++;
+		self thread DDown();
+		if(print)
+		{
+			self iprintln("^9Downer's Delight");
+			wait 0.2;
+			self iprintln("This Perk will increase players bleedout time by 10 seconds and current weapons is used in laststand.");
 		}
-        if(perk == "MULE")
-        {   
-            self.perk2back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
-            self.perk2front = self drawshader( "menu_mp_weapons_1911", x, y, 22, 22, ( 0, 1, 0 ), 100, 0 );
-            self.perk2front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk2front;
-			self.perk2back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk2back;
-			self.num_perks++;
-			if(print)
-			{
-				self iprintln("^9Mule Kick");
-				wait 0.2;
-				self iprintln("This Perk enables additional primary weapon slot for player. ");
-			}
+	}
+	if(perk == "MULE")
+	{   
+		self.perk2back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+		self.perk2front = self drawshader( "menu_mp_weapons_1911", x, y, 22, 22, ( 0, 1, 0 ), 100, 0 );
+		self.perk2front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk2front;
+		self.perk2back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk2back;
+		self.num_perks++;
+		if(print)
+		{
+			self iprintln("^9Mule Kick");
+			wait 0.2;
+			self iprintln("This Perk enables additional primary weapon slot for player. ");
 		}
-        if(perk == "PHD_FLOPPER")
-        {    
-            self.perk3back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
-            self.perk3front = self drawshader( "hud_grenadeicon", x, y, 23, 23, (1, 0, 1 ), 100, 0 );
-            self.perk3front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk3front;
-			self.perk3back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk3back;
-			self.num_perks++;
-			self thread doPHDdive();
-			if(print)
-			{
-				self iprintln("^9PhD Flopper");
-				wait 0.2;
-				self iprintln("This Perk removes explosion and fall damage also player creates explosion when dive to prone.");
-			}
+	}
+	if(perk == "PHD_FLOPPER")
+	{    
+		self.perk3back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+		self.perk3front = self drawshader( "hud_grenadeicon", x, y, 23, 23, (1, 0, 1 ), 100, 0 );
+		self.perk3front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk3front;
+		self.perk3back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk3back;
+		self.num_perks++;
+		self thread doPHDdive();
+		if(print)
+		{
+			self iprintln("^9PhD Flopper");
+			wait 0.2;
+			self iprintln("This Perk removes explosion and fall damage also player creates explosion when dive to prone.");
 		}
-        if(perk == "Victorious_Tortoise")
-        {    
-            self.perk4back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 200, 0 ), 100, 0 );
-            self.perk4front = self drawshader( "zombies_rank_2", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk4front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk4front;
-			self.perk4back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk4back;
-			self.num_perks++;
-			self thread start_vt();
-			if(print)
-			{
-				self iprintln("^9Victorious Tortoise");
-				wait 0.2;
-				self iprintln("This Perk allows shield block damage from all directions when in use.");
-        	}
+	}
+	if(perk == "Victorious_Tortoise")
+	{    
+		self.perk4back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 200, 0 ), 100, 0 );
+		self.perk4front = self drawshader( "zombies_rank_2", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk4front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk4front;
+		self.perk4back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk4back;
+		self.num_perks++;
+		self thread start_vt();
+		if(print)
+		{
+			self iprintln("^9Victorious Tortoise");
+			wait 0.2;
+			self iprintln("This Perk allows shield block damage from all directions when in use.");
 		}
-        if(perk == "ELECTRIC_CHERRY")
-        {    
-            self.perk5back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 200 ), 100, 0 );
-            self.perk5front = self drawshader( "zombies_rank_5", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk5front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk5front;
-			self.perk5back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk5back;
-			self.num_perks++;
-			self thread start_ec();
-			if(print)
-			{
-				self iprintln("^9Electric Cherry");
-				wait 0.2;
-				self iprintln("This Perk creates an electric shockwave around the player whenever they reload.");
-        	}
-		}	
-        if(perk == "THUNDER_WALL")
-        {    
-            self.perk6back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
-            self.perk6front = self drawshader( "zombies_rank_5_ded", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk6front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk6front;
-			self.perk6back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk6back;
-			self.num_perks++;
-			self thread thunder_wall_checker();
-			if(print)
-			{
-				self iprintln("^9Thunder Wall");
-				wait 0.2;
-				self iprintln("This Perk launches nearby zombies into the air when the player is hit.");
-        	}
+	}
+	if(perk == "ELECTRIC_CHERRY")
+	{    
+		self.perk5back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 200 ), 100, 0 );
+		self.perk5front = self drawshader( "zombies_rank_5", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk5front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk5front;
+		self.perk5back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk5back;
+		self.num_perks++;
+		self thread start_ec();
+		if(print)
+		{
+			self iprintln("^9Electric Cherry");
+			wait 0.2;
+			self iprintln("This Perk creates an electric shockwave around the player whenever they reload.");
 		}
-        if(perk == "Executioners_Edge")
-        {    
-            self.perk7back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 200, 0, 0 ), 100, 0 );
-            self.perk7front = self drawshader( "menu_mp_weapons_xm8", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-			self.perk7front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk7front;
-			self.perk7back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk7back;
-			self.num_perks++;
-			if(print)
-			{
-				self iprintln("^9Executioner's Edge");
-				wait 0.2;
-				self iprintln("This perk gives melee attacks one shot kills and gives extra points.");
-        	}
+	}	
+	if(perk == "THUNDER_WALL")
+	{    
+		self.perk6back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+		self.perk6front = self drawshader( "zombies_rank_5_ded", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk6front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk6front;
+		self.perk6back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk6back;
+		self.num_perks++;
+		self thread thunder_wall_checker();
+		if(print)
+		{
+			self iprintln("^9Thunder Wall");
+			wait 0.2;
+			self iprintln("This Perk launches nearby zombies into the air when the player is hit.");
 		}
-		if(perk == "Ammo_Regen")
-        {
-            self.perk8back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
-            self.perk8front = self drawshader( "menu_mp_lobby_icon_customgamemode", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk8front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk8front;
-			self.perk8back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk8back;
-			self.num_perks++;
-			self thread ammoregen();
-            self thread grenadesregen();
-			if(print)
-			{
-				self iprintln("^9Ammo Regen");
-				wait 0.2;
-				self iprintln("This Perk will slowly regenerate the players ammunation and grenades.");			
-			}
+	}
+	if(perk == "Executioners_Edge")
+	{    
+		self.perk7back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 200, 0, 0 ), 100, 0 );
+		self.perk7front = self drawshader( "zombies_rank_4_ded", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk7front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk7front;
+		self.perk7back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk7back;
+		self.num_perks++;
+		if(print)
+		{
+			self iprintln("^9Executioner's Edge");
+			wait 0.2;
+			self iprintln("This perk gives melee attacks one shot kills and gives extra points.");
 		}
-        if(perk == "Burn_Heart")
-        {
-            self.perk9back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 200, 0, 0 ), 100, 0 );
-            self.perk9front = self drawshader( "faction_cdc", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk9front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk9front;
-			self.perk9back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk9back;
-			self.num_perks++;
-            self.ignore_lava_damage = 1;
-			if(print)
-			{
-				self iprintln("^9Burn Heart");
-				wait 0.2;
-				self iprintln("This Perk removes lava damage.");
-			}
+	}
+	if(perk == "Ammo_Regen")
+	{
+		self.perk8back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+		self.perk8front = self drawshader( "menu_mp_lobby_icon_customgamemode", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk8front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk8front;
+		self.perk8back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk8back;
+		self.num_perks++;
+		self thread ammoregen();
+		self thread grenadesregen();
+		if(print)
+		{
+			self iprintln("^9Ammo Regen");
+			wait 0.2;
+			self iprintln("This Perk will slowly regenerate the players ammunation and grenades.");			
 		}
-        if(perk == "Dying_Wish")
-        {
-            self.perk10back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 200, 0, 0 ), 100, 0 );
-            self.perk10front = self drawshader( "zombies_rank_5", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk10front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk10front;
-			self.perk10back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk10back;
-			self.num_perks++;
-            self thread dying_wish_checker();
-			if(print)
-			{
-				self iprintln("^9Dying Wish");
-				wait 0.2;
-				self iprintln("This perk gives you a second chance if you die.");
-				wait 0.1;
-				self iprintln("( cooldown of 5 minutes )");
-			}
+	}
+	if(perk == "Burn_Heart")
+	{
+		self.perk9back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 200, 0, 0 ), 100, 0 );
+		self.perk9front = self drawshader( "faction_cdc", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk9front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk9front;
+		self.perk9back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk9back;
+		self.num_perks++;
+		self.ignore_lava_damage = 1;
+		if(print)
+		{
+			self iprintln("^9Burn Heart");
+			wait 0.2;
+			self iprintln("This Perk removes lava damage.");
 		}
-	
-        if(perk == "WIDOWS_WINE")
-        {
-            self.perk11back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
-            self.perk11front = self drawshader( "zombies_rank_3", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk11front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk11front;
-			self.perk11back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk11back;
-			self.num_perks++;
-			if(print)
-			{
-				self iprintln("^9Widow's Wine");
-				wait 0.2;
-				self iprintln("This Perk damages zombies around the player when they are hit and slows zombies down.");
-        	}
+	}
+	if(perk == "Dying_Wish")
+	{
+		self.perk10back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 200, 0, 0 ), 100, 0 );
+		self.perk10front = self drawshader( "zombies_rank_5", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk10front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk10front;
+		self.perk10back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk10back;
+		self.num_perks++;
+		self thread dying_wish_checker();
+		if(print)
+		{
+			self iprintln("^9Dying Wish");
+			wait 0.2;
+			self iprintln("This perk gives you a second chance if you die.");
+			wait 0.1;
+			self iprintln("( cooldown of 5 minutes )");
 		}
+	}
 
-		if (perk == "Rampage")
+	if(perk == "WIDOWS_WINE")
+	{
+		self.perk11back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+		self.perk11front = self drawshader( "zombies_rank_3", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk11front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk11front;
+		self.perk11back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk11back;
+		self.num_perks++;
+		if(print)
 		{
-			self.perk12back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
-            self.perk12front = self drawshader( "zombies_rank_4_ded", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk12front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk12front;
-			self.perk12back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk12back;
-			self.num_perks++;
-			self thread rampage_checker();
-			self thread rampage_damage();
-			if(print)
-			{
-				self iprintln("^9Rampage");
-				wait 0.2;
-				self iprintln("This Perk will grant the player a chance, upon killing a zombie, to kill zombies in one shot for 10 seconds.");
-        	}
+			self iprintln("^9Widow's Wine");
+			wait 0.2;
+			self iprintln("This Perk damages zombies around the player when they are hit and slows zombies down.");
 		}
-		if (perk == "Bloodthirst")
+	}
+
+	if (perk == "Rampage")
+	{
+		self.perk12back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+		self.perk12front = self drawshader( "specialty_instakill_zombies", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk12front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk12front;
+		self.perk12back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk12back;
+		self.num_perks++;
+		self thread rampage_checker();
+		if(print)
 		{
-			self.perk13back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
-            self.perk13front = self drawshader( "zombies_rank_4", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk13front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk13front;
-			self.perk13back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk13back;
-			self.num_perks++;
-			if(print)
-			{
-				self iprintln("^9Bloodthirst");
-				wait 0.2;
-				self iprintln("This Perk grants the player a small amount of health when killing a zombie");
-        	}
+			self iprintln("^9Rampage");
+			wait 0.2;
+			self iprintln("This Perk will grant the player a chance, upon killing a zombie, to kill zombies in one shot for 10 seconds.");
 		}
-		if (perk == "Guarding_Strike")
+	}
+	if (perk == "Bloodthirst")
+	{
+		self.perk13back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+		self.perk13front = self drawshader( "zombies_rank_4", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk13front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk13front;
+		self.perk13back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk13back;
+		self.num_perks++;
+		if(print)
 		{
-			self.perk14back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
-            self.perk14front = self drawshader( "zombies_rank_1", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk14front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk14front;
-			self.perk14back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk14back;
-			self.num_perks++;
-			self thread generate_shield();
-			
-			if(print)
-			{
-				self iprintln("^9Guarding Strike");
-				wait 0.2;
-				self iprintln("This Perk has a chance to create a shield that absorbs all damage for 5 seconds when killing a zombie ");
-        	}
+			self iprintln("^9Bloodthirst");
+			wait 0.2;
+			self iprintln("This Perk grants the player a small amount of health when killing a zombie");
 		}
-		if (perk == "Headshot_Mayhem")
+	}
+	if (perk == "Guarding_Strike")
+	{
+		self.perk14back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+		self.perk14front = self drawshader( "zombies_rank_1", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk14front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk14front;
+		self.perk14back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk14back;
+		self.num_perks++;
+		self thread generate_shield();
+		
+		if(print)
 		{
-			self.perk15back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
-            self.perk15front = self drawshader( "killiconheadshot", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
-            self.perk15front.name = perk;
-			self.perkarray[self.perkarray.size] = self.perk15front;
-			self.perk15back.name = perk;
-            self.perkarray[self.perkarray.size] = self.perk15back;
-			self.num_perks++;
-			
-			
-			if(print)
-			{
-				self iprintln("^9Headshot Mayhem");
-				wait 0.2;
-				self iprintln("This Perk has a chance to create an explosion upon a headshot kill as well as");
-				self iprintln("an additional 2x damage multiplier for headshots and extra points for headshot damage.");
-        	}
+			self iprintln("^9Guarding Strike");
+			wait 0.2;
+			self iprintln("This Perk has a chance to create a shield that absorbs all damage for 5 seconds when killing a zombie ");
 		}
+	}
+	if (perk == "Headshot_Mayhem")
+	{
+		self.perk15back = self drawshader( "specialty_marathon_zombies", x, y, 24, 24, ( 0, 0, 0 ), 100, 0 );
+		self.perk15front = self drawshader( "killiconheadshot", x, y, 23, 23, ( 1, 1, 1 ), 100, 0 );
+		self.perk15front.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk15front;
+		self.perk15back.name = perk;
+		self.perkarray[self.perkarray.size] = self.perk15back;
+		self.num_perks++;
+		
+		
+		if(print)
+		{
+			self iprintln("^9Headshot Mayhem");
+			wait 0.2;
+			self iprintln("This Perk has a chance to create an explosion upon a headshot kill as well as");
+			self iprintln("an additional 2x damage multiplier for headshots and extra points for headshot damage.");
+		}
+	}
 }
 
 custom_get_player_weapon_limit( player )
@@ -995,7 +1017,7 @@ doPHDdive() //credit to extinct
 					zombies = getAiArray(level.zombie_team);
 					foreach(zombie in zombies)
 					{
-						if(distance(zombie.origin, self.origin) < 300)
+						if(distance(zombie.origin, self.origin) < 200)
 						{
 							zombie doDamage(zombie.health * 2, zombie.origin, self);
 						}
@@ -1308,16 +1330,15 @@ actor_damage_override_override( inflictor, attacker, damage, flags, meansofdeath
 		{
 			if (attacker.health < attacker.maxhealth)
 			{
-				attacker.health+=10;
+				attacker.health+=5;
 			}
 			else
 			{
 				attacker.maxhealth+=1;
 				attacker.health+=1;
-				if (attacker.maxhealth == 320)
+				if (attacker.maxhealth > 350)
 				{
-					attacker.maxhealth = 300;
-					attacker.health = attacker.maxhealth;
+					attacker.maxhealth = 350;
 				}
 			}
 		}
@@ -1363,9 +1384,7 @@ actor_damage_override_override( inflictor, attacker, damage, flags, meansofdeath
 			}
 			if(attacker.rampage)
 			{
-				self iprintln(damage);
-				self iprintln(damage * 5);
-				finaldamage = (finaldamage + (damage*5));
+				return (self.health);
 			}
 		return (finaldamage);	
 		}
@@ -1405,7 +1424,24 @@ damage_callback( einflictor, eattacker, idamage, idflags, smeansofdeath, sweapon
 			}
 		}
     }
-	
+	if( isDefined( eattacker.is_zombie ) && eattacker.is_zombie && self hascustomperk("Bloodthirst") && self.maxhealth > 250)
+	{
+		self.maxhealth-=30;
+		if(self hasPerk("specialty_armorvest"))
+		{
+			if (self.maxhealth < 250)
+			{
+				self.maxhealth = 250;
+			}
+		}
+		else
+		{
+			if (self.maxhealth < 150)
+			{
+				self.maxhealth = 150;
+			}
+		}
+	}
     if (self hascustomperk("PHD_FLOPPER"))
 	{
 		if( smeansofdeath == "MOD_PROJECTILE" || smeansofdeath == "MOD_FALLING" || smeansofdeath == "MOD_PROJECTILE_SPLASH" || smeansofdeath == "MOD_EXPLOSIVE" || smeansofdeath == "MOD_GRENADE" || smeansofdeath == "MOD_GRENADE_SPLASH")
@@ -1437,12 +1473,12 @@ generate_shield()
 		self.GS_on = 0;
 		self waittill("GS_activation");
 		self.GS_on = 1;
-		self iprintln("Guarding Strike Activated!");
+		self iprintln("^2Guarding Strike Activated!");
 		self enableInvulnerability();
 		self.perk14back.alpha = 1;
         self.perk14front.alpha = 1;
 		wait 5;
-		self iprintln("Guarding Strike Shield Dissipated!"); 
+		self iprintln("^2Guarding Strike Shield Dissipated!"); 
 		self disableInvulnerability();
 	}
 }
@@ -1458,27 +1494,17 @@ rampage_checker()
         self.perk12front.alpha = 0.4;
 		self waittill("rampage_activation");
 		self.rampage = 1;
-		self iprintln("Rampage Ability Activated");
+		self iprintln("^1Rampage Ability Activated");
 		self.perk12back.alpha = 1;
         self.perk12front.alpha = 1;
 		wait 15;
-		self iprintln("Rampage Effect Finished");
+		self iprintln("^1Rampage Effect Finished");
 		self.perk12back.alpha = 0.3;
         self.perk12front.alpha = 0.4;
 		self.rampage = 0;
 	}
 }
-rampage_damage()
-{
-	level endon("end_game");
-    self endon("disconnect");
-    self endon( "stopcustomperk" );
-	for(;;)
-	{
-		self waittill("set_damage_undefined");
-		self.damage_to_deal = undefined;
-	}
-}
+
 thunder_wall_checker()
 {
 	level endon("end_game");
@@ -1527,7 +1553,7 @@ dying_wish_effect()
     self useServerVisionSet(1);
     self setvisionsetforplayer( "zombie_death", 0 );
     wait 9;
-	self.health = 1;
+	self.health = self.maxhealth;
     self disableInvulnerability();
     self.ignoreme = 0;
     self useServerVisionSet(0);
@@ -1558,237 +1584,51 @@ player_burning_audio()
 	self waittill_any( "stop_flame_damage", "stop_flame_sounds", "death", "disconnect" );
 	fire_ent delete();
 }
-
 Perkaholic()
 {
-	self.num_perks = 0;
-	if(!self hasperk("specialty_armorvest"))
+	custom_perk_array = array("Downers_Delight","Rampage","PHD_FLOPPER","ELECTRIC_CHERRY","Guarding_Strike","Dying_Wish","Bloodthirst","WIDOWS_WINE","Ammo_Regen","Executioners_Edge","MULE","Headshot_Mayhem","THUNDER_WALL","Burn_Heart");
+	foreach(perk in custom_perk_array)
 	{
-    	self give_perk( "specialty_armorvest" );
-		wait 0.1;
+		if (!self hascustomperk(perk))
+		{
+			if (getdvar("mapname") == "zm_buried")
+			{
+				if (perk=="Burn_Heart" || perk == "MULE")
+				{
+					return;
+				}
+			}
+			if (getdvar("mapname") == "zm_tomb")
+			{
+				if (perk == "MULE" || perk == "ELECTRIC_CHERRY" || perk == "PHD_FLOPPER" || perk == "Burn_Heart")
+				{
+					return;
+				}
+			}
+			if (getdvar("mapname") == "zm_nuked")
+			{
+				if (perk =="Burn_Heart")
+				{
+					return;
+				}
+			}
+			if (getdvar("mapname") == "zm_prison")
+			{
+				if (perk == "Burn_Heart")
+				{
+					return;
+				}
+			}
+
+	 		self drawshader_and_shadermove(perk, 0, 1);		
+		}
+		wait 0.25;
 	}
-	else
-	{
-		self.num_perks++;
-	}
-	if(!self hasperk("specialty_fastreload"))
-	{
-		self give_perk( "specialty_fastreload" );
-		wait 0.1;
-	}
-	else
-	{
-		self.num_perks++;
-	}
-	if(!self hasperk("specialty_rof"))
-	{
-    	self give_perk( "specialty_rof" );
-		wait 0.1;
-	}
-	else
-	{
-		self.num_perks++;
-	}
-	if( getdvar( "mapname" ) == "zm_transit")
-	{
-		if(!self hasperk("specialty_quickrevive"))
-		{
-			self give_perk( "specialty_quickrevive" );
-			wait 0.1;
-		}
-		else
-		{
-			self.num_perks++;
-		}
-		/*if(!self hasperk("specialty_scavenger"))
-    	{
-			self give_perk( "specialty_scavenger" );
-			wait 0.1;
-		}
-		else
-		{
-			self.num_perks++;
-		}*/
-		if(!self hasperk("specialty_longersprint"))
-		{
-			self give_perk( "specialty_longersprint" );
-			wait 0.1;
-		}
-		else
-		{
-			self.num_perks++;
-		}
-	}
-	if( getdvar( "mapname" ) == "zm_prison" )
-	{
-		if(!self hasperk("specialty_grenadepulldeath"))
-		{
-        	self give_perk("specialty_grenadepulldeath");
-		}
-		if(!self hasperk("specialty_deadshot"))
-        {
-			self give_perk("specialty_deadshot");
-		}
-	}
-	if( getdvar( "mapname" ) == "zm_nuked" )
-	{
-		if(!self hasperk("specialty_quickrevive"))
-		{
-			self give_perk("specialty_quickrevive");
-		}
-	}
-	if( getdvar( "mapname" ) == "zm_tomb")
-	{
-		if(!self hasperk("specialty_deadshot"))
-		{
-			self give_perk( "specialty_deadshot" );
-		}
-		if(!self hasperk("specialty_grenadepulldeath"))
-		{
-    		self give_perk( "specialty_grenadepulldeath" );
-		}
-		if(!self hasperk("specialty_flakjacket"))
-    	{
-			self give_perk( "specialty_flakjacket" );
-		}
-		if(!self hasperk("specialty_quickrevive"))
-        {
-			self give_perk( "specialty_quickrevive" );
-		}
-		if(!self hasperk("specialty_additionalprimaryweapon"))
-		{
-			self give_perk( "specialty_additionalprimaryweapon" );
-		}
-		if(!self hasperk("specialty_longersprint"))
-		{
-			self give_perk( "specialty_longersprint" );
-		}
-	}
-	if( getdvar( "mapname" ) == "zm_buried")
-	{
-		if(!self hasperk("specialty_nomotionsensor"))
-    	{
-			self give_perk("specialty_nomotionsensor");
-		}
-		if(!self hasperk("specialty_additionalprimaryweapon"))
-		{
-			self give_perk( "specialty_additionalprimaryweapon" );
-		}
-		if(!self hasperk("specialty_quickrevive"))
-    	{
-			self give_perk( "specialty_quickrevive" );
-		}
-		if(!self hasperk("specialty_longersprint"))
-		{
-			self give_perk( "specialty_longersprint" );
-		}
-	}
-	if( getdvar( "mapname" ) == "zm_highrise" )
-	{
-		if(!self hasperk("specialty_quickrevive"))
-		{
-			self give_perk("specialty_quickrevive");
-		}
-		if(!self hasperk("specialty_finalstand"))
-    	{
-			self give_perk( "specialty_finalstand" );
-		}
-		if(!self hasperk("specialty_additionalprimaryweapon"))
-	    {
-			self give_perk("specialty_additionalprimaryweapon");
-		}
-	}
-    self.perk_reminder = self.num_perks;
-    self.perk_count = self.num_perks;
-	wait 0.2;
-	if(level.town)
-	{
-		if(!self hascustomperk("Downers_Delight"))
-		{
-			self drawshader_and_shadermove( "Downers_Delight", 0, 0 );
-			wait 0.15;
-		}
-    	if(!self hascustomperk("MULE"))
-		{
-			self drawshader_and_shadermove( "MULE", 0, 0 );
-			wait 0.15;
-    	}
-    	if(!self hascustomperk("PHD_FLOPPER"))
-		{
-			self drawshader_and_shadermove( "PHD_FLOPPER", 0, 0 );
-			wait 0.15;
-    	}
-    	if(!self hascustomperk("Victorious_Tortoise"))
-		{
-			self drawshader_and_shadermove( "Victorious_Tortoise", 0, 0 );
-			wait 0.15;
-    	}
-    	if(!self hascustomperk("ELECTRIC_CHERRY"))
-		{
-			self drawshader_and_shadermove( "ELECTRIC_CHERRY", 0, 0 );
-			wait 0.15;
-    	}
-    	if(!self hascustomperk("WIDOWS_WINE"))
-		{
-			self drawshader_and_shadermove( "WIDOWS_WINE", 0, 0 );
-			wait 0.15;
-    	}
-    	if(!self hascustomperk("Executioners_Edge"))
-		{
-			self drawshader_and_shadermove( "Executioners_Edge", 0, 0 );
-			wait 0.15;
-    	}
-    	if(!self hascustomperk("Ammo_Regen"))
-		{
-			self drawshader_and_shadermove( "Ammo_Regen", 0, 0 );
-			wait 0.15;
-    	}
-		if(!self hascustomperk("Burn_Heart"))
-		{
-			self drawshader_and_shadermove( "Burn_Heart", 0, 0 );
-			wait 0.15;
-    	}
-		if(!self hascustomperk("Dying_Wish"))
-		{
-			self drawshader_and_shadermove( "Dying_Wish", 0, 0 );
-			wait 0.15;
-    	}
-		if(!self hascustomperk("deadshot"))
-		{
-			self drawshader_and_shadermove( "deadshot", 0, 0 );
-			wait 0.15;
-    	}
-	}
-	if(level.diner)
-	{
-		if(!self hascustomperk("Downers_Delight"))
-		{
-			self thread drawshader_and_shadermove( "Downers_Delight", 0, 0 );
-    	}
-    	if(!self hascustomperk("MULE"))
-		{
-			self thread drawshader_and_shadermove( "MULE", 0, 0 );
-    	}
-    	if(!self hascustomperk("PHD_FLOPPER"))
-		{
-			self thread drawshader_and_shadermove( "PHD_FLOPPER", 0, 0 );
-    	}
-    	if(!self hascustomperk("Victorious_Tortoise"))
-		{
-			self thread drawshader_and_shadermove( "Victorious_Tortoise", 0, 0 );
-    	}
-    	if(!self hascustomperk("ELECTRIC_CHERRY"))
-		{
-			self thread drawshader_and_shadermove( "ELECTRIC_CHERRY", 0, 0 );
-    	}
-    	if(!self hascustomperk("WIDOWS_WINE"))
-		{
-			self thread drawshader_and_shadermove( "WIDOWS_WINE", 0, 0 );
-    	}
-    	if(!self hascustomperk("Executioners_Edge"))
-		{
-			self thread drawshader_and_shadermove( "Executioners_Edge", 0, 0 );
-    	}	
-	}
+	self.perkaholic_activated = 0;
+	return;
+
 }
+	
+	
+	
 
