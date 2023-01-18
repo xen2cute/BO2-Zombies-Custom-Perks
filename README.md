@@ -120,21 +120,21 @@ perk_system( "script_model", (847, -1037, 120), "zombie_vending_revive_on", ( 0,
 perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bottle)
 ```
 
-```(847, -1037, 1200)``` - the position
+```(847, -1037, 1200) / pos``` - the position
 
-```( 0, 326, 0)``` - the angle, you will likely only need to change the middle value. 
+```( 0, 326, 0)` / angle`` - the angle, you will likely only need to change the middle value. 
 
 The position and angles can be found using the code above.
 
 Other parameters:
 
-```"zombie_vending_revive_on" ```- the model to be used (only models that exist in the map can be used, use this [model list](https://pastebin.com/raw/bH8weGDP) to help
+```"zombie_vending_revive_on / model" ```- the model to be used (only models that exist in the map can be used, use this [model list](https://pastebin.com/raw/bH8weGDP) to help
 
-```"Downer's Delight" ``` - the name that appears in the hint when you approach the perk machine
+```"Downer's Delight" / name ``` - the name that appears in the hint when you approach the perk machine
 
-```"Downers_Delight" ```- the actual perk, the names of which can be found under the drawshader_and_shadermove() function
+```"Downers_Delight" / perk```- the actual perk, the names of which can be found under the drawshader_and_shadermove() function
 
-```"zombie_perk_bottle_revive" ```- the perk bottle, the bottles names can be found [here](https://pastebin.com/aKBQg9RJ)
+```"zombie_perk_bottle_revive / bottle" ```- the perk bottle, the bottles names can be found [here](https://pastebin.com/aKBQg9RJ)
 
 
 
