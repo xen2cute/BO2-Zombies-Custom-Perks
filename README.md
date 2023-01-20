@@ -2,20 +2,8 @@
 
 
 ## Features 
-- Adds Perk-A-Colas with custom perks to all the zombies maps. 
-
-Checklist:
-- ✅ TranZit
-- ✅ Town 
-- ✅ Farm 
-- ✅ Nuketown
-- ❌ Mob of The Dead 
-- ✅ Buried 
-- ✅ Origins (the locations are a bit messy)
-- ❌ Die Rise
-
-
-
+- Adds Perk-A-Colas with custom perks to all the zombies maps except Die Rise and MOTD. You can still get the perks through the test function which will give you all the perks.
+- If you wish to change the position of a perk machine I have detailed how you may do so [here](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/main/README.md#how-to-modify-perk-machine-position)
 
 ## Instructions to download 
 1. Download the file in the compiled folder
@@ -140,7 +128,6 @@ Other parameters:
 
 
 
-## Other notes
-For Die Rise and MOTD, although I haven't added the perk machines yet, they can still be obtained by using the perk test function, when you spawn in you can press a certain button and you will be given all the perks. I can't guarantee that everything will work correctly however. 
+
 ## Credits
 whydoesanyonecare. I took the base code for the perk systems from [dog town plutonium](https://github.com/whydoesanyonecare/Plutonium-versions-of-T6-custom-survival-maps/blob/main/dog_town_plutonium.gsc)
