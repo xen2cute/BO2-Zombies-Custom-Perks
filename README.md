@@ -11,7 +11,7 @@ Checklist:
 - ✅ Nuketown
 - ❌ Mob of The Dead 
 - ✅ Buried 
-- ✅ Origins (the locations are a bit messy)
+- ✅ Origins 
 - ❌ Die Rise
 
 
