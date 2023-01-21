@@ -65,7 +65,10 @@
 #include maps/mp/zombies/_zm_ai_sloth_magicbox;
 #include maps/mp/zombies/_zm_ai_sloth_crawler;
 #include maps/mp/zombies/_zm_ai_sloth_buildables;
-
+main()
+{
+	replacefunc(maps/mp/zombies/_zm_perks::perk_machine_spawn_init, ::perk_machine_spawn_init_override);
+}
 init()
 {
 		
@@ -113,9 +116,7 @@ init()
 	precachemodel( "zombie_vending_marathon_on" );
 	precachemodel( "zombie_pickup_perk_bottle" );
 	precachemodel( "zm_collision_perks1" );
-	level._effect["fx_zombie_cola_revive_on"] = loadfx( "misc/fx_zombie_cola_revive_on" );
-	level._effect["fx_zombie_cola_dtap_on"] = loadfx( "misc/fx_zombie_cola_dtap_on" );
-	level._effect["fx_zombie_cola_on"] = loadfx( "misc/fx_zombie_cola_on" );
+	
 	level.effect_WebFX = loadfx("misc/fx_zombie_powerup_solo_grab");
 	if (  !(  getdvar("mapname") == "zm_buried" || getdvar("mapname") == "zm_tomb"  )  )
 	{
@@ -145,8 +146,312 @@ init()
 	level.perk_purchase_limit = 50;
 	
 } 
-	
-	
+
+extra_perk_spawns() //custom function
+{
+	location = level.scr_zm_map_start_location;
+
+	if ( location == "farm" )
+	{
+		level.farmPerkArray = array( "specialty_weapupgrade" );
+
+		level.farmPerks["specialty_weapupgrade"] = spawnstruct();
+		level.farmPerks["specialty_weapupgrade"].origin = (7996, -5730, 13);
+		level.farmPerks["specialty_weapupgrade"].angles = (0,270,0);
+		level.farmPerks["specialty_weapupgrade"].model = "p6_anim_zm_buildable_pap_on";
+		level.farmPerks["specialty_weapupgrade"].script_noteworthy = "specialty_weapupgrade";
+	}
+}
+
+perk_machine_spawn_init_override() //modified function
+{
+	extra_perk_spawns();
+	match_string = "";
+
+	location = level.scr_zm_map_start_location;
+	if ( ( location == "default" || location == "" ) && IsDefined( level.default_start_location ) )
+	{
+		location = level.default_start_location;
+	}
+
+	match_string = level.scr_zm_ui_gametype + "_perks_" + location;
+	pos = [];
+	if ( isdefined( level.override_perk_targetname ) )
+	{
+		structs = getstructarray( level.override_perk_targetname, "targetname" );
+	}
+	else
+	{
+		structs = getstructarray( "zm_perk_machine", "targetname" );
+	}
+	if ( match_string == "zclassic_perks_rooftop" || match_string == "zclassic_perks_tomb" || match_string == "zstandard_perks_nuked" )
+	{
+		useDefaultLocation = 1;
+	}
+	i = 0;
+	while ( i < structs.size )
+	{
+		if(is_true(level.disableBSMMagic))
+		{
+			structs[i].origin = (0,0,-10000);
+		}
+		if ( isdefined( structs[ i ].script_string ) )
+		{
+			tokens = strtok( structs[ i ].script_string, " " );
+			k = 0;
+			while ( k < tokens.size )
+			{
+				if ( tokens[ k ] == match_string )
+				{
+					pos[ pos.size ] = structs[ i ];
+				}
+				k++;
+			}
+		}
+		else if ( isDefined( useDefaultLocation ) && useDefaultLocation )
+		{
+			pos[ pos.size ] = structs[ i ];
+		}
+		i++;
+	}
+
+	location = level.scr_zm_map_start_location;
+	if ( location == "town" )
+	{
+		foreach( perk in level.townPerkArray )
+		{
+			pos[pos.size] = level.townPerks[ perk ];
+		}
+	}
+	else if ( location == "farm" )
+	{
+		foreach( perk in level.farmPerkArray )
+		{
+			pos[pos.size] = level.farmPerks[ perk ];
+		}
+	}
+	else if ( location == "transit" && !is_classic() )
+	{
+		foreach( perk in level.busPerkArray )
+		{
+			pos[pos.size] = level.busPerks[ perk ];
+		}
+	}
+
+	if ( !IsDefined( pos ) || pos.size == 0 )
+	{
+		return;
+	}
+	PreCacheModel("zm_collision_perks1");
+	for ( i = 0; i < pos.size; i++ )
+	{
+		perk = pos[ i ].script_noteworthy;
+		//added for grieffix gun game
+		if ( IsDefined( perk ) && IsDefined( pos[ i ].model ) )
+		{
+			use_trigger = Spawn( "trigger_radius_use", pos[ i ].origin + ( 0, 0, 30 ), 0, 40, 70 );
+			use_trigger.targetname = "zombie_vending";			
+			use_trigger.script_noteworthy = perk;
+			use_trigger TriggerIgnoreTeam();
+			//use_trigger thread givePoints();
+			//use_trigger thread debug_spot();
+			perk_machine = Spawn( "script_model", pos[ i ].origin );
+			perk_machine.angles = pos[ i ].angles;
+			perk_machine SetModel( pos[ i ].model );
+			if(level.customMap == "maze")
+			{
+				perk_machine NotSolid();
+				perk_machine ConnectPaths();
+			}
+			perk_machine.is_locked = 0;
+			//perk_machine thread coin_system(perk);
+			if ( isdefined( level._no_vending_machine_bump_trigs ) && level._no_vending_machine_bump_trigs )
+			{
+				bump_trigger = undefined;
+			}
+			else
+			{
+				bump_trigger = spawn("trigger_radius", pos[ i ].origin, 0, 35, 64);
+				bump_trigger.script_activated = 1;
+				bump_trigger.script_sound = "zmb_perks_bump_bottle";
+				bump_trigger.targetname = "audio_bump_trigger";
+				if ( perk != "specialty_weapupgrade" )
+				{
+					bump_trigger thread thread_bump_trigger();
+				}
+			}
+			collision = Spawn( "script_model", pos[ i ].origin, 1 );
+			collision.angles = pos[ i ].angles;
+			collision SetModel( "zm_collision_perks1" );
+			collision DisconnectPaths();
+			collision.script_noteworthy = "clip";
+			// Connect all of the pieces for easy access.
+			use_trigger.clip = collision;
+			use_trigger.bump = bump_trigger;
+			use_trigger.machine = perk_machine;
+			//missing code found in cerberus output
+			if ( isdefined( pos[ i ].blocker_model ) )
+			{
+				use_trigger.blocker_model = pos[ i ].blocker_model;
+			}
+			if ( isdefined( pos[ i ].script_int ) )
+			{
+				perk_machine.script_int = pos[ i ].script_int;
+			}
+			if ( isdefined( pos[ i ].turn_on_notify ) )
+			{
+				perk_machine.turn_on_notify = pos[ i ].turn_on_notify;
+			}
+			switch( perk )
+			{
+				case "specialty_quickrevive":
+				case "specialty_quickrevive_upgrade":
+					use_trigger.script_sound = "mus_perks_revive_jingle";
+					use_trigger.script_string = "revive_perk";
+					use_trigger.script_label = "mus_perks_revive_sting";
+					use_trigger.target = "vending_revive";
+					perk_machine.script_string = "revive_perk";
+					perk_machine.targetname = "vending_revive";
+					if ( isDefined( bump_trigger ) )
+					{
+						bump_trigger.script_string = "revive_perk";
+					}
+					break;
+				case "specialty_fastreload":
+				case "specialty_fastreload_upgrade":
+					use_trigger.script_sound = "mus_perks_speed_jingle";
+					use_trigger.script_string = "speedcola_perk";
+					use_trigger.script_label = "mus_perks_speed_sting";
+					use_trigger.target = "vending_sleight";
+					perk_machine.script_string = "speedcola_perk";
+					perk_machine.targetname = "vending_sleight";
+					if ( isDefined( bump_trigger ) )
+					{
+						bump_trigger.script_string = "speedcola_perk";
+					}
+					break;
+				case "specialty_longersprint":
+				case "specialty_longersprint_upgrade":
+					use_trigger.script_sound = "mus_perks_stamin_jingle";
+					use_trigger.script_string = "marathon_perk";
+					use_trigger.script_label = "mus_perks_stamin_sting";
+					use_trigger.target = "vending_marathon";
+					perk_machine.script_string = "marathon_perk";
+					perk_machine.targetname = "vending_marathon";
+					if ( isDefined( bump_trigger ) )
+					{
+						bump_trigger.script_string = "marathon_perk";
+					}
+					break;
+				case "specialty_armorvest":
+				case "specialty_armorvest_upgrade":
+					use_trigger.script_sound = "mus_perks_jugganog_jingle";
+					use_trigger.script_string = "jugg_perk";
+					use_trigger.script_label = "mus_perks_jugganog_sting";
+					use_trigger.longjinglewait = 1;
+					use_trigger.target = "vending_jugg";
+					perk_machine.script_string = "jugg_perk";
+					perk_machine.targetname = "vending_jugg";
+					if ( isDefined( bump_trigger ) )
+					{
+						bump_trigger.script_string = "jugg_perk";
+					}
+					break;
+				case "specialty_scavenger":
+				case "specialty_scavenger_upgrade":
+					use_trigger.script_sound = "mus_perks_tombstone_jingle";
+					use_trigger.script_string = "tombstone_perk";
+					use_trigger.script_label = "mus_perks_tombstone_sting";
+					use_trigger.target = "vending_tombstone";
+					perk_machine.script_string = "tombstone_perk";
+					perk_machine.targetname = "vending_tombstone";
+					if ( isDefined( bump_trigger ) )
+					{
+						bump_trigger.script_string = "tombstone_perk";
+					}
+					break;
+				case "specialty_rof":
+				case "specialty_rof_upgrade":
+					use_trigger.script_sound = "mus_perks_doubletap_jingle";
+					use_trigger.script_string = "tap_perk";
+					use_trigger.script_label = "mus_perks_doubletap_sting";
+					use_trigger.target = "vending_doubletap";
+					perk_machine.script_string = "tap_perk";
+					perk_machine.targetname = "vending_doubletap";
+					if ( isDefined( bump_trigger ) )
+					{
+						bump_trigger.script_string = "tap_perk";
+					}
+					break;
+				case "specialty_finalstand":
+				case "specialty_finalstand_upgrade":
+					use_trigger.script_sound = "mus_perks_whoswho_jingle";
+					use_trigger.script_string = "tap_perk";
+					use_trigger.script_label = "mus_perks_whoswho_sting";
+					use_trigger.target = "vending_chugabud";
+					perk_machine.script_string = "tap_perk";
+					perk_machine.targetname = "vending_chugabud";
+					if ( isDefined( bump_trigger ) )
+					{
+						bump_trigger.script_string = "tap_perk";
+					}
+					break;
+				case "specialty_additionalprimaryweapon":
+				case "specialty_additionalprimaryweapon_upgrade":
+					use_trigger.script_sound = "mus_perks_mulekick_jingle";
+					use_trigger.script_string = "tap_perk";
+					use_trigger.script_label = "mus_perks_mulekick_sting";
+					use_trigger.target = "vending_additionalprimaryweapon";
+					perk_machine.script_string = "tap_perk";
+					perk_machine.targetname = "vending_additionalprimaryweapon";
+					if ( isDefined( bump_trigger ) )
+					{
+						bump_trigger.script_string = "tap_perk";
+					}
+					break;
+				case "specialty_weapupgrade":
+					use_trigger.target = "vending_packapunch";
+					use_trigger.script_sound = "mus_perks_packa_jingle";
+					use_trigger.script_label = "mus_perks_packa_sting";
+					use_trigger.longjinglewait = 1;
+					perk_machine.targetname = "vending_packapunch";
+					flag_pos = getstruct( pos[ i ].target, "targetname" );
+					if ( isDefined( flag_pos ) )
+					{
+						perk_machine_flag = spawn( "script_model", flag_pos.origin );
+						perk_machine_flag.angles = flag_pos.angles;
+						perk_machine_flag setmodel( flag_pos.model );
+						perk_machine_flag.targetname = "pack_flag";
+						perk_machine.target = "pack_flag";
+					}
+					if ( isDefined( bump_trigger ) )
+					{
+						bump_trigger.script_string = "perks_rattle";
+					}
+					break;
+				case "specialty_deadshot":
+				case "specialty_deadshot_upgrade":
+					use_trigger.script_sound = "mus_perks_deadshot_jingle";
+					use_trigger.script_string = "deadshot_perk";
+					use_trigger.script_label = "mus_perks_deadshot_sting";
+					use_trigger.target = "vending_deadshot";
+					perk_machine.script_string = "deadshot_vending";
+					perk_machine.targetname = "vending_deadshot_model";
+					if ( isDefined( bump_trigger ) )
+					{
+						bump_trigger.script_string = "deadshot_vending";
+					}
+					break;
+				default:
+					if ( isdefined( level._custom_perks[ perk ] ) && isdefined( level._custom_perks[ perk ].perk_machine_set_kvps ) )
+					{
+						[[ level._custom_perks[ perk ].perk_machine_set_kvps ]]( use_trigger, perk_machine, bump_trigger, collision );
+					}
+					break;
+			}
+		}
+	}
+}
 onPlayerConnect()
 {
 	while ( 1 )
@@ -297,18 +602,38 @@ init_custom_map()
 		
 		
 		//Farm 
-		//pap();
-		perk_system( "script_model", ( 8256, -6396, 92.6), "zombie_vending_sleight_on", ( 0, 120, 0 ), "custom", "mus_perks_sleight_sting", "Widow's Wine", 3000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight" );
-		perk_system( "script_model", ( 7057, -5728, -48), "zombie_vending_marathon_on", ( 0, 90, 0 ), "custom", "mus_perks_tombstone_sting", "Thunder Wall", 25000, "tombstone_light", "THUNDER_WALL","zombie_perk_bottle_marathon" );
-		perk_system( "script_model", ( 8460, -4593, 48), "zombie_vending_doubletap2_on", ( 0, 0, 0 ), "custom", "mus_perks_doubletap_sting", "Ammo Regen", 15000, "doubletap_light", "Ammo_Regen","zombie_perk_bottle_doubletap" );
-		perk_system( "script_model", ( 7938, -4675, 48 ), "zombie_vending_marathon_on", ( 0, 45, 0 ), "custom", "mus_perks_stamin_sting", "Burn Heart", 15000, "marathon_light", "Burn_Heart","zombie_perk_bottle_marathon" );
-		perk_system( "script_model", ( 7893, -6527, 117 ), "zombie_vending_revive_on", ( 0, 120, 0 ), "custom", "mus_perks_tombstone_sting", "Dying Wish", 15000, "revive_light", "Dying_Wish","zombie_perk_bottle_revive" );
-		perk_system( "script_model", ( 7848, -4878, 47 ), "zombie_vending_sleight_on", ( 0, 270, 0 ), "custom", "mus_perks_sleight_sting", "Electric Cherry", 3000, "revive_light", "ELECTRIC_CHERRY","zombie_perk_bottle_sleight" );
-		perk_system( "script_model", ( 8738, -6577, 109 ), "zombie_vending_tombstone_on", ( 0, 210, 0 ), "custom", "mus_perks_tombstone_sting", "Executioner's Edge", 18000, "tombstone_light", "Executioners_Edge","zombie_perk_bottle_tombstone" );
-		perk_system( "script_model", ( 7767, -6329, 117  ), "zombie_vending_jugg_on", ( 0, 120, 0 ), "custom", "mus_perks_phd_sting", "PhD Flopper", 8000, "jugger_light", "PHD_FLOPPER","zombie_perk_bottle_jugg" );
-		perk_system( "script_model", (  7921, -5408, 48 ), "zombie_vending_sleight_on", ( 0, 180, 0 ), "custom", "mus_perks_mulekick_sting", "Mule Kick", 4000, "sleight_light", "MULE","zombie_perk_bottle_sleight" );
-		perk_system( "script_model", (  8820, -5785, 50 ), "zombie_vending_tombstone_on", ( 0, 270, 0 ), "custom", "mus_perks_tombstone_sting", "Rampage", 18000, "tombstone_light", "Rampage", "zombie_perk_bottle_tombstone" );
+		
+		//next to fridge
+		perk_system( "script_model", (8313, -6823, 117), "zombie_vending_revive_on", ( 0, 210, 0 ), "custom", "mus_perks_sleight_sting", "Downer's Delight", 3000, "revive_light", "Downers_Delight","zombie_perk_bottle_revive" );
+		//next to stablle looking thin
+		perk_system( "script_model", (8735, -6559, 108), "zombie_vending_jugg_on", ( 0, 210, 0 ), "custom", "mus_perks_sleight_sting", "Rampage", 10000, "jugger_light", "Rampage","zombie_perk_bottle_jugg" );
+		//next to mystery box
+		perk_system( "script_model", (7740, -6283, 245), "zombie_vending_marathon_on", ( 0, 80, 0 ), "custom", "mus_perks_sleight_sting", "PhD Flopper", 5000, "marathon_light", "PHD_FLOPPER","zombie_perk_bottle_marathon" );
+		//inside barn
+		perk_system( "script_model", (8500, -5091, 48), "zombie_vending_sleight_on", ( 0, 270, 0 ), "custom", "mus_perks_sleight_sting", "Electric Cherry", 3000, "revive_light", "ELECTRIC_CHERRY","zombie_perk_bottle_sleight" );
+		//next to dbtp2
+		perk_system( "script_model", (8366, -4691, 264), "zombie_vending_sleight_on", ( 0, 276, 0 ), "custom", "mus_perks_sleight_sting", "Guarding Strike", 10000, "sleight_light", "Guarding_Strike","zombie_perk_bottle_sleight" );
+		//inside house
+		perk_system( "script_model", (7907, -6551, 116), "zombie_vending_revive_on", ( 0, 120, 0 ), "custom", "mus_perks_sleight_sting", "Dying Wish", 20000, "revive_light", "Dying_Wish","zombie_perk_bottle_revive" );
+		//next to far barn stairs
+		perk_system( "script_model", (8515, -4665, 48), "zombie_vending_doubletap2_on", ( 0, 270, 0 ), "custom", "mus_perks_sleight_sting", "Bloodthirst", 2500, "doubletap_light", "Bloodthirst","zombie_perk_bottle_doubletap" );
+		//outside barn
+		perk_system( "script_model", (7848, -4888, 45), "zombie_vending_sleight_on", ( 0, 270, 0 ), "custom", "mus_perks_sleight_sting", "Widow's Wine", 4000, "sleight_light", "WIDOWS_WINE","zombie_perk_bottle_sleight" );
+		//wall of house
+		perk_system( "script_model", (8246 ,-6379 ,90), "zombie_vending_marathon_on", ( 0, 120, 0 ), "custom", "mus_perks_sleight_sting", "Ammo Regen", 12000, "marathon_light", "Ammo_Regen","zombie_perk_bottle_marathon" );
+		//right of fence
+		perk_system( "script_model", (7204, -5824, -46), "zombie_vending_marathon_on", ( 0, 180, 0 ), "custom", "mus_perks_sleight_sting", "Executioner's Edge", 15000, "marathon_light", "Executioners_Edge","zombie_perk_bottle_marathon" );
+		//nxt to tractor
+		perk_system( "script_model", (8823, -5760, 49), "zombie_vending_tombstone_on", ( 0, 270, 0 ), "custom", "mus_perks_sleight_sting", "Mule Kick", 4000, "tombstone_light", "MULE","zombie_perk_bottle_tombstone" );
+		//left of fence
+		perk_system( "script_model", (7182, -5613, -45), "zombie_vending_marathon_on", ( 0, 0, 0 ), "custom", "mus_perks_sleight_sting", "Headshot Mayhem", 30000, "marathon_light", "Headshot_Mayhem","zombie_perk_bottle_marathon" );
+		//next to fence
+		perk_system( "script_model", (7057, -5725, -48), "zombie_vending_marathon_on", ( 0, 90, 0 ), "custom", "mus_perks_sleight_sting", "Thunder Wall", 20000, "marathon_light", "THUNDER_WALL","zombie_perk_bottle_marathon" );
+		//outside door. below mystery box
+		perk_system( "script_model", (7760, -6316, 116), "zombie_vending_doubletap2_on", ( 0, 120, 0 ), "custom", "mus_perks_sleight_sting", "Burn Heart", 12000, "doubletap_light", "Burn_Heart","zombie_perk_bottle_doubletap" );
+		
 
+		
 		
 	}
 	else if (getdvar("mapname") == "zm_buried")
@@ -431,7 +756,10 @@ default_vending_precaching()
 {
 	level._effect[ "sleight_light" ] = loadfx( "misc/fx_zombie_cola_on" );
 	level._effect[ "tombstone_light" ] = loadfx( "misc/fx_zombie_cola_on" );
-	level._effect[ "revive_light" ] = loadfx( "misc/fx_zombie_cola_revive_on" );
+	if (!getdvar( "mapname" ) == "zm_prison")
+	{
+		level._effect[ "revive_light" ] = loadfx( "misc/fx_zombie_cola_revive_on" );
+	}
 	level._effect[ "marathon_light" ] = loadfx( "maps/zombie/fx_zmb_cola_staminup_on" );
 	level._effect[ "jugger_light" ] = loadfx( "misc/fx_zombie_cola_jugg_on" );
 	level._effect[ "doubletap_light" ] = loadfx( "misc/fx_zombie_cola_dtap_on" );
@@ -466,17 +794,6 @@ playchalkfx(effect, origin, angles)
     level waittill("connected", player);
     fx Delete();
 }
-/*
-pap_system(pos, angles)
-{
-	pap_machine = spawn("script_model", pos);
-	pap_machine setmodel("p6_anim_zm_buildable_pap_on");
-	pap_machine.angles = angles;
-	collision=spawn("script_model", pos);
-	collision setmodel("collision_geo_32x32x128_standard");
-	pap_machine thread pap_buy_system();
-}
-*/
 
 perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bottle)
 {
@@ -487,53 +804,11 @@ perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bott
 	collision setmodel( "collision_geo_32x32x128_standard" );
 	collision.angles = angles;
     perkmachine thread buy_system( perk, sound, name, cost, type, bottle );
+	//perkmachine thread coin_system( perk );
     perkmachine thread play_fx( fx );
 }
-/*
-pap_buy_system()
-{
-	self endon( "game_ended")
-	while( 1 )
-	{
-		foreach( player in level.players )
-        {
-            if(!player.machine_is_in_use)
-			{
-                if( distance( self.origin, player.origin ) <= 70 )
-                {
-				    player thread SpawnHint( self.origin, 30, 30, "HINT_ACTIVATE", "Hold ^3&&1^7 to upgrade your weapon. Cost: 5000" );
-                    if(player usebuttonpressed() && !player hasperk(perk) && !player hascustomperk(perk) && player.score >= cost && !player maps/mp/zombies/_zm_laststand::player_is_in_laststand())
-                    {
-                        player.machine_is_in_use = 1;
-                        player playsound( "zmb_cha_ching" );
-                        player.score -= 5000;
-						weapona = getcurrentweapon();
-						weaponb = getupgradevariant(weapona)
-			    	    self giveweapon( weaponb );
-        				self switchtoweapon( weaponb );
-						
-	
-						self setblur( 4, 0.1 );
-						wait 0.1;
-						self setblur( 0, 0.1 );
-						self allowProne(true);
-						wait 10;
-                    	player.machine_is_in_use = 0;
-					}
-					else
-                    {
-                        if( player usebuttonpressed() && player.score < cost )
-                        {
-                            player maps/mp/zombies/_zm_audio::create_and_play_dialog( "general", "perk_deny", undefined, 0 );
-                        }
-                    }
-                }
-            }
-        }
-        wait 0.1;
-    }
-}
-*/
+
+
 buy_system( perk, sound, name, cost, type, bottle)
 {
     self endon( "game_ended" );
@@ -570,13 +845,13 @@ buy_system( perk, sound, name, cost, type, bottle)
 				wait 0.5;
 				if ( (distance( self.origin, player.origin ) <= 50) && player IsOnGround() && player GetStance() == "prone")
 				{
-				if (!player coinsfoundcheck(perk))
-				{
-					player.coinsfound[player.coinsfound.size] = perk;
+					if (!player coinsfoundcheck(perk))
+					{
+						player.coinsfound[player.coinsfound.size] = perk;
 						player maps/mp/zombies/_zm_score::add_to_player_score( 50 );
 						player playsound( "zmb_cha_ching" );
+					}
 				}
-			}
 			}
 			
 				
@@ -584,17 +859,17 @@ buy_system( perk, sound, name, cost, type, bottle)
         wait 0.1;
     }
 }
-coinsfoundcheck(perk)
-{
-	for(i = 0; i < self.coinsfound.size; i++)
-	{
-		if(self.coinsfound[i] == perk)
-		{
-			return 1;
-		}
-	}
-	return 0;
-}
+coinsfoundcheck(perk) 
+{ 
+	for(i = 0; i < self.coinsfound.size; i++) 
+	{ 
+		if(self.coinsfound[i] == perk) 
+		{ 
+			return 1; 
+		} 
+	} 
+	return 0; 
+} 
 hascustomperk(perk)
 {
 	for(i = 0; i < self.perkarray.size; i++)
@@ -1033,7 +1308,7 @@ doPHDdive() //credit to extinct
 	{
 		if(isDefined(self.divetoprone) && self.divetoprone)
 		{
-			if(self isOnGround())
+			if(self isOnGround()) 
 			{
 				if (self hascustomperk("PHD_FLOPPER") || self hasPerk("specialty_flakjacket"))
 				{
