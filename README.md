@@ -28,6 +28,8 @@
 
 
 ## Pictures of the Perk-A-Colas
+
+I apologise for the low quality of the pictures. Also, the models may change but the position should stay the same. 
 ### TranZit 
 
 ![tranzit-custom-perks](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/raw/main/Images/TranZit/tranzit.gif)
