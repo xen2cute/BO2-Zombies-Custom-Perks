@@ -567,12 +567,18 @@ buy_system( perk, sound, name, cost, type, bottle)
             }
 			if ( (distance( self.origin, player.origin ) <= 50) && player IsOnGround() && player GetStance() == "prone")
 			{
+				wait 0.5;
+				if ( (distance( self.origin, player.origin ) <= 50) && player IsOnGround() && player GetStance() == "prone")
+				{
 				if (!player coinsfoundcheck(perk))
 				{
 					player.coinsfound[player.coinsfound.size] = perk;
-					player maps/mp/zombies/_zm_score::add_to_player_score( 10 );
+						player maps/mp/zombies/_zm_score::add_to_player_score( 50 );
+						player playsound( "zmb_cha_ching" );
 				}
 			}
+			}
+			
 				
         }
         wait 0.1;
