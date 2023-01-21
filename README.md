@@ -30,23 +30,23 @@
 ## Pictures of the Perk-A-Colas
 ### TranZit 
 
-No pictures yet
+![tranzit-custom-perks](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/raw/main/Images/TranZit/tranzit.gif)
 
 ### Buried 
 
-No pictures yet
+![buried-custom-perks](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/raw/main/Images/Buried/buried.gif)
 
 ### Town 
 
-No pictures yet
+![town-custom-perks](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/raw/main/Images/Town/town.gif)
 
 ### Farm
 
-![farm-custom-perks](https://user-images.githubusercontent.com/71220264/210157415-965042cf-6e04-4d80-9a01-0e796fac27cf.gif)
+![farm-custom-perks](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/raw/main/Images/Farm/farm.gif)
 
 ### Nuketown
 
-![nuketown-custom-perks](https://user-images.githubusercontent.com/71220264/210157416-def4b24f-c561-4b64-88cf-e337dd360490.gif)
+No pictures yet
 
 ### MOTD
 
