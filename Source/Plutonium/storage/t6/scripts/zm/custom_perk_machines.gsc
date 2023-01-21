@@ -160,6 +160,7 @@ onPlayerSpawned()
 	self endon( "disconnect" );
 	level endon( "game_ended" );
 	self waittill( "spawned_player" );
+	self.coinsfound = [];
 	self.perkarray = [];
 	self.dying_wish_on_cooldown = 0;
 	self.thunder_wall_on_cooldown = 0;
@@ -564,11 +565,30 @@ buy_system( perk, sound, name, cost, type, bottle)
                     }
                 }
             }
+			if ( (distance( self.origin, player.origin ) <= 50) && player IsOnGround() && player GetStance() == "prone")
+			{
+				if (!player coinsfoundcheck(perk))
+				{
+					player.coinsfound[player.coinsfound.size] = perk;
+					player maps/mp/zombies/_zm_score::add_to_player_score( 10 );
+				}
+			}
+				
         }
         wait 0.1;
     }
 }
-
+coinsfoundcheck(perk)
+{
+	for(i = 0; i < self.coinsfound.size; i++)
+	{
+		if(self.coinsfound[i] == perk)
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
 hascustomperk(perk)
 {
 	for(i = 0; i < self.perkarray.size; i++)
