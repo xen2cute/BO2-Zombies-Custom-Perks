@@ -89,10 +89,10 @@ doGetposition()
 }
 corrected_angles(angles)
 {
-	angles = angles + (0, 90, 0)
-	if angles[1] < 0
+	angles = anges + (0, 90, 0);
+	if (angles[1] < 0)
 	{
-		angles = angles + (0, 360, 0)
+		angles = angles + (0, 360, 0);
 	}
 	return angles;
 }
