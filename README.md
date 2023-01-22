@@ -108,7 +108,7 @@ perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bott
 
 ```(847, -1037, 1200) / pos``` - the position
 
-```( 0, 326, 0)` / angle`` - the angle, you will likely only need to change the middle value. 
+```( 0, 326, 0)` / angle``` - the angle, you will likely only need to change the middle value. 
 
 The position and angles can be found using the code above.
 
