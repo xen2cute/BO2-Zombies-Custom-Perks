@@ -29,7 +29,9 @@
 
 ## Pictures of the Perk-A-Colas
 
-I apologise for the low quality of the pictures. Also, the models may change but the position should stay the same. 
+The models may change but the position should stay the same. 
+
+
 ### TranZit 
 
 ![tranzit-custom-perks](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/raw/main/Images/TranZit/tranzit.gif)
@@ -87,21 +89,15 @@ doGetposition()
 }
 corrected_angles(angles)
 {
-	if(angles[1] < 0)
+	angles = angles + (0, 90, 0)
+	if angles[1] < 0
 	{
-		angles = angles + (0, 90, 0);
-		if(angles[1] < 0)
-		{
-			angles = angles + (0, 360, 0);
-		}
-	}
-	else
-	{
-		angles = angles + (0, 90, 0);
+		angles = angles + (0, 360, 0)
 	}
 	return angles;
 }
 ```
+
 With this you can get the position and angles required to spawn a perk machine in the correct place. The next step is to edit the lines of code that look like this that can be found under the init_custom_map() function:
 ```
 perk_system( "script_model", (847, -1037, 120), "zombie_vending_revive_on", ( 0, 326, 0 ), "custom", "mus_perks_sleight_sting", "Downer's Delight", 3000, "revive_light", "Downers_Delight","zombie_perk_bottle_revive" );
