@@ -160,20 +160,23 @@ onPlayerSpawned()
 {
 	self endon( "disconnect" );
 	level endon( "game_ended" );
-	self waittill( "spawned_player" );
-	self.coinsfound = [];
-	self.perkarray = [];
-	self.dying_wish_on_cooldown = 0;
-	self.thunder_wall_on_cooldown = 0;
-	self.rampage_on_cooldown = 0;
-	self.rampage = 0;
-    self.perk_reminder = 0;
-    self.perk_count = 0;
-    self.num_perks = 0;
-	self thread removeperkshader();
-    self thread perkboughtcheck();
-	self thread damagehitmarker();
-	self thread test_perks();
+	for(;;)
+	{
+		self waittill( "spawned_player" );
+		self.coinsfound = [];
+		self.perkarray = [];
+		self.dying_wish_on_cooldown = 0;
+		self.thunder_wall_on_cooldown = 0;
+		self.rampage_on_cooldown = 0;
+		self.rampage = 0;
+		self.perk_reminder = 0;
+		self.perk_count = 0;
+		self.num_perks = 0;
+		self thread removeperkshader();
+		self thread perkboughtcheck();
+		self thread damagehitmarker();
+		self thread test_perks();
+	}
 }
 
 
@@ -589,6 +592,7 @@ removeperkshader()
         self.num_perks = 0;
         self.perk_reminder = 0;
         self.perk_count = 0;
+		self.perks_given = 0;
 		self.dying_wish_on_cooldown = 0;
 		self.thunder_wall_on_cooldown = 0;
 		self.rampage_on_cooldown = 0;
@@ -1891,6 +1895,9 @@ perk_machine_spawn_init_override() //modified function
 }
 Perkaholic()
 {
+	self endon("death");
+	self endon("disconnected");
+	level endon("end_Game");
 	custom_perk_array = array("Downers_Delight","Rampage","PHD_FLOPPER","ELECTRIC_CHERRY","Guarding_Strike","Dying_Wish","Bloodthirst","WIDOWS_WINE","Ammo_Regen","Executioners_Edge","MULE","Headshot_Mayhem","THUNDER_WALL","Burn_Heart");
 	foreach(perk in custom_perk_array)
 	{
