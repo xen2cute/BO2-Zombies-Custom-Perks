@@ -369,9 +369,12 @@ init_custom_map()
 		perk_system( "script_model", ( -998, 211, -34 ), "zombie_vending_revive_on", ( 0, 250, 0 ), "custom", "mus_perks_tombstone_sting", "Dying Wish", 15000, "revive_light", "Dying_Wish","zombie_perk_bottle_revive" );
 		perk_system( "script_model", ( 699, 560.7, -57 ), "zombie_vending_sleight_on", ( 0, 105, 0 ), "custom", "mus_perks_sleight_sting", "Electric Cherry", 3000, "revive_light", "ELECTRIC_CHERRY","zombie_perk_bottle_sleight" );
 		perk_system( "script_model", ( -1830, 686, -48 ), "zombie_vending_doubletap2_on", ( 0, 340, 0 ), "custom", "mus_perks_tombstone_sting", "Executioner's Edge", 18000, "doubletap_light", "Executioners_Edge","zombie_perk_bottle_doubletap" );
-		perk_system( "script_model", ( -934, 271, -55 ), "zombie_vending_jugg_on", ( 0, 75, 0 ), "custom", "mus_perks_jugg_sting", "PhD Flopper", 8000, "jugger_light", "PHD_FLOPPER","zombie_perk_bottle_jugg" );
+		perk_system( "script_model", ( -156, -90, -65), "zombie_vending_jugg_on", ( 0, 310, 0 ), "custom", "mus_perks_jugg_sting", "PhD Flopper", 8000, "jugger_light", "PHD_FLOPPER","zombie_perk_bottle_jugg" );
 		perk_system( "script_model", (  -897.749, -170, -60), "zombie_vending_sleight_on", ( 0, 110, 0 ), "custom", "mus_perks_mulekick_sting", "Mule Kick", 4000, "sleight_light", "MULE","zombie_perk_bottle_sleight" );
 		perk_system( "script_model", ( -868, 352, 85 ), "zombie_vending_doubletap2_on", ( 0, 160, 0 ), "custom", "mus_perks_tombstone_sting", "Rampage", 18000, "doubletap_light", "Rampage", "zombie_perk_bottle_doubletap" );
+		perk_system( "script_model", (-651, 273, -55), "zombie_vending_jugg_on", ( 0, 160, 0 ), "custom", "mus_perks_sleight_sting", "Guarding Strike", 10000, "sleight_light", "Guarding_Strike","zombie_perk_bottle_sleight" );
+		perk_system( "script_model", (1149, 170, 79), "zombie_vending_doubletap2_on", ( 0, 284, 0 ), "custom", "mus_perks_sleight_sting", "Bloodthirst", 2500, "jugger_light", "Bloodthirst","zombie_perk_bottle_jugg" );
+		perk_system( "script_model", (-937, 275, -56 ), "zombie_vending_doubletap2_on", ( 0, 70, 0 ), "custom", "mus_perks_sleight_sting", "Headshot Mayhem", 30000, "marathon_light", "Headshot_Mayhem","zombie_perk_bottle_marathon" );
 	}
 	else if (getdvar( "mapname" ) == "zm_tomb") //Origins
 	{
