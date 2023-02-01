@@ -65,6 +65,7 @@
 #include maps/mp/zombies/_zm_ai_sloth_magicbox;
 #include maps/mp/zombies/_zm_ai_sloth_crawler;
 #include maps/mp/zombies/_zm_ai_sloth_buildables;
+#include maps/mp/zombies/_zm_afterlife;
 main()
 {
 	replacefunc(maps/mp/zombies/_zm_perks::perk_machine_spawn_init, ::perk_machine_spawn_init_override);
@@ -140,7 +141,8 @@ init()
 
 	
 
-
+	level.afterlife_save_loadout = ::custom_afterlife_save_loadout;
+    level.afterlife_give_loadout = ::custom_afterlife_give_loadout;
    
 	level.player_out_of_playable_area_monitor = 0;
 	level.perk_purchase_limit = 50;
@@ -496,7 +498,16 @@ playchalkfx(effect, origin, angles)
     level waittill("connected", player);
     fx Delete();
 }
-
+original_perks(perk)
+{
+	original_perks = array("specialty_armorvest", "specialty_rof", "specialty_fastreload", "specialty_longersprint", "specialty_quickrevive", "specialty_deadshot", "specialty_grenadepulldeath", "specialty_flakjacket", "specialty_additionalprimaryweapon", "specialty_scavenger", "specialty_finalstand");
+	for(i = 0; i < original_perks.size; i++)
+	{
+		if(original_perks[i] == perk)
+			return true;
+	}
+	return false;
+}
 perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bottle)
 {
 	perkmachine = spawn( script, pos);
@@ -506,7 +517,6 @@ perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bott
 	collision setmodel( "collision_geo_32x32x128_standard" );
 	collision.angles = angles;
     perkmachine thread buy_system( perk, sound, name, cost, type, bottle );
-	//perkmachine thread coin_system( perk );
     perkmachine thread play_fx( fx );
 }
 
@@ -1464,7 +1474,247 @@ damage_callback( einflictor, eattacker, idamage, idflags, smeansofdeath, sweapon
 	}
 	return idamage;
 }
+custom_afterlife_save_loadout()
+{
+	self iprintln("saving loadout");
+    primaries = self getweaponslistprimaries();
+    currentweapon = self getcurrentweapon();
+    self.loadout = spawnstruct();
+    self.loadout.player = self;
+    self.loadout.weapons = [];
+    self.loadout.score = self.score;
+    self.loadout.current_weapon = 0;
+	
+    _a1516 = primaries;
+	index = getFirstArrayKey( _a1516 );
+	while ( isDefined( index ) )
+	{
+		weapon = _a1516[ index ];
+		self.loadout.weapons[ index ] = weapon;
+		self.loadout.stockcount[ index ] = self getweaponammostock( weapon );
+		self.loadout.clipcount[ index ] = self getweaponammoclip( weapon );
+		if ( weaponisdualwield( weapon ) )
+		{
+			weapon_dw = weapondualwieldweaponname( weapon );
+			self.loadout.clipcount2[ index ] = self getweaponammoclip( weapon_dw );
+		}
+		weapon_alt = weaponaltweaponname( weapon );
+		if ( weapon_alt != "none" )
+		{
+			self.loadout.stockcountalt[ index ] = self getweaponammostock( weapon_alt );
+			self.loadout.clipcountalt[ index ] = self getweaponammoclip( weapon_alt );
+		}
+		if ( weapon == currentweapon )
+		{
+			self.loadout.current_weapon = index;
+		}
+		index = getNextArrayKey( _a1516, index );
+	}
+    self.loadout.equipment = self get_player_equipment();
 
+    if ( isdefined( self.loadout.equipment ) )
+        self equipment_take( self.loadout.equipment );
+
+    if ( self hasweapon( "claymore_zm" ) )
+    {
+        self.loadout.hasclaymore = 1;
+        self.loadout.claymoreclip = self getweaponammoclip( "claymore_zm" );
+    }
+
+    if ( self hasweapon( "emp_grenade_zm" ) )
+    {
+        self.loadout.hasemp = 1;
+        self.loadout.empclip = self getweaponammoclip( "emp_grenade_zm" );
+    }
+
+    if ( self hasweapon( "bouncing_tomahawk_zm" ) || self hasweapon( "upgraded_tomahawk_zm" ) )
+    {
+        self.loadout.hastomahawk = 1;
+        self setclientfieldtoplayer( "tomahawk_in_use", 0 );
+    }
+
+    self.loadout.perks = custom_afterlife_save_perks();
+    lethal_grenade = self get_player_lethal_grenade();
+
+    if ( self hasweapon( lethal_grenade ) )
+        self.loadout.grenade = self getweaponammoclip( lethal_grenade );
+    else
+        self.loadout.grenade = 0;
+
+    self.loadout.lethal_grenade = lethal_grenade;
+    self set_player_lethal_grenade( undefined );
+	self iprintln("finished saving loadout");
+}
+
+custom_afterlife_save_perks()
+{
+	self iprintln("saving perks");
+	self.saved_perks = [];
+	for(i = 0; i < self.perkarray.size; i++)
+	{
+		
+		self.saved_perks[self.saved_perks.size] = self.perkarray[i];
+		if (!original_perks(self.perkarray[i]))
+		{
+			self.num_perks--;
+		}
+	}
+
+	perk_array = maps/mp/zombies/_zm_perks::get_perk_array( 0 );
+	foreach(perk in perk_array)
+	{
+		self unSetPerk(perk);
+	}
+	self iprintln("finished saving perks");
+}
+/*
+custom_save_perks()
+{
+	self.saved_perks = [];
+    for(i = 0; i < self.perkarray.size; i++)
+    {
+        if(self.perkarray[i] != "specialty_finalstand" && self.perkarray[i] != "specialty_scavenger")
+		    self.saved_perks[self.saved_perks.size] = self.perkarray[i];
+
+		if(!original_perks(self.perkarray[i]))
+			self.num_perks--;
+    }
+	perk_array = maps/mp/zombies/_zm_perks::get_perk_array( 0 );
+	foreach( perk in perk_array)
+	{
+		self unsetperk( perk )
+	}
+}
+*/
+custom_afterlife_give_loadout()
+{
+	self iprintln("giving loadout");
+    self takeallweapons();
+    loadout = self.loadout;
+    primaries = self getweaponslistprimaries();
+
+    if ( loadout.weapons.size > 1 || primaries.size > 1 )
+    {
+        foreach ( weapon in primaries )
+            self takeweapon( weapon );
+    }
+
+    for ( i = 0; i < loadout.weapons.size; i++ )
+    {
+        if ( !isdefined( loadout.weapons[i] ) )
+            continue;
+
+        if ( loadout.weapons[i] == "none" )
+            continue;
+
+        weapon = loadout.weapons[i];
+        stock_amount = loadout.stockcount[i];
+        clip_amount = loadout.clipcount[i];
+
+        if ( !self hasweapon( weapon ) )
+        {
+            self giveweapon( weapon, 0, self maps\mp\zombies\_zm_weapons::get_pack_a_punch_weapon_options( weapon ) );
+            self setweaponammostock( weapon, stock_amount );
+            self setweaponammoclip( weapon, clip_amount );
+
+            if ( weaponisdualwield( weapon ) )
+            {
+                weapon_dw = weapondualwieldweaponname( weapon );
+                self setweaponammoclip( weapon_dw, loadout.clipcount2[i] );
+            }
+
+            weapon_alt = weaponaltweaponname( weapon );
+
+            if ( weapon_alt != "none" )
+            {
+                self setweaponammostock( weapon_alt, loadout.stockcountalt[i] );
+                self setweaponammoclip( weapon_alt, loadout.clipcountalt[i] );
+            }
+        }
+    }
+
+    self setspawnweapon( loadout.weapons[loadout.current_weapon] );
+    self switchtoweaponimmediate( loadout.weapons[loadout.current_weapon] );
+
+    if ( isdefined( self get_player_melee_weapon() ) )
+	{
+        self giveweapon( self get_player_melee_weapon() );
+	}
+    self maps\mp\zombies\_zm_equipment::equipment_give( self.loadout.equipment );
+
+    if ( isdefined( loadout.hasclaymore ) && loadout.hasclaymore && !self hasweapon( "claymore_zm" ) )
+    {
+        self giveweapon( "claymore_zm" );
+        self set_player_placeable_mine( "claymore_zm" );
+        self setactionslot( 4, "weapon", "claymore_zm" );
+        self setweaponammoclip( "claymore_zm", loadout.claymoreclip );
+    }
+
+    if ( isdefined( loadout.hasemp ) && loadout.hasemp )
+    {
+        self giveweapon( "emp_grenade_zm" );
+        self setweaponammoclip( "emp_grenade_zm", loadout.empclip );
+    }
+
+    if ( isdefined( loadout.hastomahawk ) && loadout.hastomahawk )
+    {
+        self giveweapon( self.current_tomahawk_weapon );
+        self set_player_tactical_grenade( self.current_tomahawk_weapon );
+        self setclientfieldtoplayer( "tomahawk_in_use", 1 );
+    }
+
+    self.score = loadout.score;
+	
+    perk_array = maps\mp\zombies\_zm_perks::get_perk_array( 1 );
+
+    for ( i = 0; i < perk_array.size; i++ )
+    {
+        perk = perk_array[i];
+        self unsetperk( perk );
+		self.num_perks--;
+        self set_perk_clientfield( perk, 0 );
+    }
+	
+    if ( isdefined( self.keep_perks ) && self.keep_perks)
+    {
+		if (isdefined( self.saved_perks ) && self.saved_perks.size > 0 )
+		{
+			self iprintln("trying to give saved perks");
+			for ( i = 0; i < self.saved_perks.size; i++ )
+			{
+				
+				if ( self hasperk( self.saved_perks[i] ) )
+				{
+					continue;
+				}
+				
+				if (original_perks(self.saved_perks[i]))
+				{
+					self maps/mp/zombies/_zm_perks::give_perk( perk, 0 );
+				}
+				else
+				{
+					self drawshader_and_shadermove(self.saved_perks[i], 0, 0);
+				}
+			}
+        }
+    }
+
+    self.keep_perks = undefined;
+    self set_player_lethal_grenade( self.loadout.lethal_grenade );
+
+    if ( loadout.grenade > 0 )
+    {
+        curgrenadecount = 0;
+
+        if ( self hasweapon( self get_player_lethal_grenade() ) )
+            self getweaponammoclip( self get_player_lethal_grenade() );
+        else
+            self giveweapon( self get_player_lethal_grenade() );
+
+        self setweaponammoclip( self get_player_lethal_grenade(), loadout.grenade + curgrenadecount );
+    }
+}
 generate_shield()
 {
 	level endon("end_game");
