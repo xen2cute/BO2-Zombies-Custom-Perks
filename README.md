@@ -3,7 +3,7 @@
 
 ## Features 
 - Adds Perk-A-Colas with custom perks to all the zombies maps except Die Rise and MOTD. You can still get the perks through the test function which will give you all the perks.
-- If you wish to change the position of a perk machine I have detailed how you may do so [here](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/blob/main/README.md#how-to-modify-perk-machine-position)
+- If you wish to change the position of a perk machine I have detailed how you may do so [here](https://github.com/Viren070/BO2-Zombies-Custom-Perks#how-to-modify-perk-machine-position)
 - This script also allows you to gain points by going prone next to any perk machine, both custom perk and default perk machines. You gain 50 points.
 
 ## Instructions to download 
