@@ -530,7 +530,7 @@ buy_system( perk, sound, name, cost, type, bottle)
         {
             if(!player.machine_is_in_use)
 			{
-                if( distance( self.origin, player.origin ) <= 70 )
+                if( distance( self.origin, player.origin ) <= 70 && !player hasperk(perk) && !player hascustomperk(perk))
                 {
 				    player thread SpawnHint( self.origin, 30, 30, "HINT_ACTIVATE", "Hold ^3&&1^7 for " + name + " [Cost: " + cost + "]" );
                     if(player usebuttonpressed() && !player hasperk(perk) && !player hascustomperk(perk) && player.score >= cost && !player maps/mp/zombies/_zm_laststand::player_is_in_laststand())
