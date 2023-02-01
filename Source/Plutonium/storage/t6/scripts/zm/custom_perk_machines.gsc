@@ -1034,7 +1034,6 @@ ammoregen()
 		weapons = self GetWeaponsList();
 		foreach(weapon in weapons)
 		{
-			self iprintln(weapon);
 			if (self GetFractionMaxAmmo(weapon) == 1)
 			{
 				wait 0.1;
@@ -1613,25 +1612,7 @@ custom_afterlife_save_perks()
 	}
 	self iprintln("finished saving perks");
 }
-/*
-custom_save_perks()
-{
-	self.saved_perks = [];
-    for(i = 0; i < self.perkarray.size; i++)
-    {
-        if(self.perkarray[i] != "specialty_finalstand" && self.perkarray[i] != "specialty_scavenger")
-		    self.saved_perks[self.saved_perks.size] = self.perkarray[i];
 
-		if(!original_perks(self.perkarray[i]))
-			self.num_perks--;
-    }
-	perk_array = maps/mp/zombies/_zm_perks::get_perk_array( 0 );
-	foreach( perk in perk_array)
-	{
-		self unsetperk( perk )
-	}
-}
-*/
 custom_afterlife_give_loadout()
 {
 	self iprintln("giving loadout");
