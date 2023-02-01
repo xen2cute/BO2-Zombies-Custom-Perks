@@ -156,6 +156,7 @@ onPlayerConnect()
 	{
 		level waittill( "connected", player);
 		player thread onPlayerSpawned();
+		level thread spawn_coins();
 	}
 }
 onPlayerSpawned()
@@ -266,6 +267,45 @@ hitmark()
 		}
 	}
 }	
+spawn_coins()
+{
+	machines = getentarray( "zombie_vending", "targetname" );
+	
+	foreach(machine in machines)
+	{
+		if (!machine.script_noteworthy == "specialty_weapupgrade")
+		{
+			machine thread coin_watcher();
+		}
+	}
+}
+
+coin_watcher()
+{
+	level endon("end_game");
+	level endon("game_end");
+	for (;;)
+	{
+		foreach(player in level.players)
+		{
+			if ( (distance( self.origin, player.origin ) <= 75) && player IsOnGround() && player GetStance() == "prone" &&  (!player coinsfoundcheck(self.script_noteworthy)) )
+			{
+				wait 0.5;
+				if ( (distance( self.origin, player.origin ) <= 75) && player IsOnGround() && player GetStance() == "prone")
+				{
+					player.coinsfound[player.coinsfound.size] = self.script_noteworthy;
+					player maps/mp/zombies/_zm_score::add_to_player_score( 50 );
+					player playsound( "zmb_cha_ching" );
+					
+				}
+			}
+			wait 0.1;
+		}
+		wait 0.1;
+	}
+}
+	
+
 
 init_custom_map()
 {
@@ -517,6 +557,7 @@ perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bott
 	collision setmodel( "collision_geo_32x32x128_standard" );
 	collision.angles = angles;
     perkmachine thread buy_system( perk, sound, name, cost, type, bottle );
+	perkmachine thread coin_watcher();
     perkmachine thread play_fx( fx );
 }
 
@@ -551,22 +592,7 @@ buy_system( perk, sound, name, cost, type, bottle)
                         }
                     }
                 }
-            }
-			if ( (distance( self.origin, player.origin ) <= 50) && player IsOnGround() && player GetStance() == "prone")
-			{
-				wait 0.5;
-				if ( (distance( self.origin, player.origin ) <= 50) && player IsOnGround() && player GetStance() == "prone")
-				{
-					if (!player coinsfoundcheck(perk))
-					{
-						player.coinsfound[player.coinsfound.size] = perk;
-						player maps/mp/zombies/_zm_score::add_to_player_score( 50 );
-						player playsound( "zmb_cha_ching" );
-					}
-				}
-			}
-			
-				
+            }	
         }
         wait 0.1;
     }
