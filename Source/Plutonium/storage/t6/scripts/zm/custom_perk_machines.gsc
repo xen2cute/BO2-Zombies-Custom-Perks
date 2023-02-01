@@ -302,11 +302,21 @@ coin_watcher()
 			}
 			wait 0.1;
 		}
-		wait 0.1;
+		wait 0.5;
 	}
 }
 	
-
+coinsfoundcheck(perk) 
+{ 
+	for(i = 0; i < self.coinsfound.size; i++) 
+	{ 
+		if(self.coinsfound[i] == perk) 
+		{ 
+			return 1; 
+		} 
+	} 
+	return 0; 
+} 
 
 init_custom_map()
 {
@@ -554,6 +564,7 @@ perk_system( script, pos, model, angles, type, sound, name, cost, fx, perk, bott
 	perkmachine = spawn( script, pos);
 	perkmachine setmodel( model );
 	perkmachine.angles = angles;
+	perkmachine.script_noteworthy = perk;
 	collision= spawn( script, pos );
 	collision setmodel( "collision_geo_32x32x128_standard" );
 	collision.angles = angles;
@@ -598,17 +609,7 @@ buy_system( perk, sound, name, cost, type, bottle)
         wait 0.1;
     }
 }
-coinsfoundcheck(perk) 
-{ 
-	for(i = 0; i < self.coinsfound.size; i++) 
-	{ 
-		if(self.coinsfound[i] == perk) 
-		{ 
-			return 1; 
-		} 
-	} 
-	return 0; 
-} 
+
 hascustomperk(perk)
 {
 	for(i = 0; i < self.perkarray.size; i++)
