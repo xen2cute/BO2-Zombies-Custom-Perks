@@ -172,6 +172,7 @@ onPlayerSpawned()
 		self.thunder_wall_on_cooldown = 0;
 		self.rampage_on_cooldown = 0;
 		self.rampage = 0;
+		self.GS_on_cooldown = 0;
 		self.perk_reminder = 0;
 		self.perk_count = 0;
 		self.num_perks = 0;
@@ -633,6 +634,7 @@ removeperkshader()
 		self.thunder_wall_on_cooldown = 0;
 		self.rampage_on_cooldown = 0;
 		self.rampage = 0;
+		self.GS_on_cooldown = 0;
 		self removeallcustomshader();
 		self.perkarray = [];
         self notify( "stopcustomperk" );
@@ -946,7 +948,7 @@ drawshader_and_shadermove(perk, custom, print, bottle)
 		{
 			self iprintln("^9Rampage");
 			wait 0.2;
-			self iprintln("This Perk will grant the player a chance, upon killing a zombie, to kill zombies in one shot for 10 seconds.");
+			self iprintln("This Perk gives insta kills for 30 seconds upon killing a zombie (cooldown of 5 mins)");
 		}
 	}
 	if (perk == "Bloodthirst")
@@ -974,13 +976,13 @@ drawshader_and_shadermove(perk, custom, print, bottle)
 		self.perk14back.name = perk;
 		self.perkarray[self.perkarray.size] = self.perk14back;
 		self.num_perks++;
-		self thread generate_shield();
+		self thread guarding_strike();
 		
 		if(print)
 		{
 			self iprintln("^9Guarding Strike");
 			wait 0.2;
-			self iprintln("This Perk has a chance to create a shield that absorbs all damage for 5 seconds when killing a zombie ");
+			self iprintln("This perk grants invulnerability upon killing a zombie (cooldown of 5 minutes)");
 		}
 	}
 	if (perk == "Headshot_Mayhem")
@@ -1382,18 +1384,12 @@ actor_damage_override_override( inflictor, attacker, damage, flags, meansofdeath
 				}
 			}
 		}
-		if (attacker hascustomperk("Guarding_Strike") && (damage > self.health) && !attacker.GS_on)
-		{
-			if(find_truefalse(10))
-			{
-				attacker notify("GS_activation");
-			}
-		}
+		
 		if ( meansofdeath == "MOD_MELEE" && attacker hascustomperk("Executioners_Edge") )
 		{
 			attacker maps/mp/zombies/_zm_score::add_to_player_score(250);
 			attacker.health+=20;
-			return (self.health);
+			finaldamage = self.health + 1;
 		}
 		
 		if ( ( maps/mp/gametypes_zm/_globallogic_utils::isheadshot( weapon, shitloc, meansofdeath, inflictor ) ) && attacker hascustomperk("Headshot_Mayhem") )
@@ -1401,10 +1397,10 @@ actor_damage_override_override( inflictor, attacker, damage, flags, meansofdeath
 		
 			finaldamage = (finaldamage + (damage * 2) );
 			attacker maps/mp/zombies/_zm_score::add_to_player_score( 50 );
-			if (damage > self.health)
+			if (finaldamage > self.health)
 			{
 				
-				if (find_truefalse(15))
+				if (find_truefalse(5))
 				{
 					self thread headshot_explosion();
 				}
@@ -1414,9 +1410,9 @@ actor_damage_override_override( inflictor, attacker, damage, flags, meansofdeath
 			
 		if( attacker hascustomperk("Rampage") )
 		{
-			if( !attacker.rampage && damage>self.health )
+			if( !attacker.rampage && finaldamage>self.health )
 			{
-				if (find_truefalse(20))
+				if (!attacker.rampage_on_cooldown)
 				{
 					attacker notify("rampage_activation");
 				}
@@ -1424,10 +1420,18 @@ actor_damage_override_override( inflictor, attacker, damage, flags, meansofdeath
 			}
 			if(attacker.rampage)
 			{
-				return (self.health);
+				finaldamage = self.health + 1;
 			}
-		return (finaldamage);	
+		
 		}
+		if (attacker hascustomperk("Guarding_Strike") && (finaldamage > self.health) )
+		{
+			if(!attacker.GS_on_cooldown)
+			{
+				attacker notify("GS_activation");
+			}
+		}
+		return finaldamage;
 	}
 	
 	return [[level.original_damagecallback]]( inflictor, attacker, damage, flags, meansofdeath, weapon, vpoint, vdir, shitloc, psoffsettime, boneindex );
@@ -1481,6 +1485,10 @@ damage_callback( einflictor, eattacker, idamage, idflags, smeansofdeath, sweapon
 				self.maxhealth = 150;
 			}
 		}
+	}
+	if (self hascustomperk("Guarding_Strike") && self.GS_on)
+	{
+		return 0;
 	}
     if (self hascustomperk("PHD_FLOPPER"))
 	{
@@ -1741,7 +1749,7 @@ custom_afterlife_give_loadout()
         self setweaponammoclip( self get_player_lethal_grenade(), loadout.grenade + curgrenadecount );
     }
 }
-generate_shield()
+guarding_strike()
 {
 	level endon("end_game");
     self endon("disconnect");
@@ -1751,15 +1759,19 @@ generate_shield()
 		self.perk14back.alpha = 0.3;
         self.perk14front.alpha = 0.4;
 		self.GS_on = 0;
+		self.GS_on_coodlown = 1;
+		wait 600;
+		self.GS_on_cooldown = 0;
 		self waittill("GS_activation");
-		self.GS_on = 1;
 		self iprintln("^2Guarding Strike Activated!");
 		self enableInvulnerability();
+		self.GS_on = 1;
 		self.perk14back.alpha = 1;
         self.perk14front.alpha = 1;
-		wait 5;
+		wait 15;
 		self iprintln("^2Guarding Strike Shield Dissipated!"); 
 		self disableInvulnerability();
+		
 	}
 }
 rampage_checker()
@@ -1772,16 +1784,17 @@ rampage_checker()
 	{
 		self.perk12back.alpha = 0.3;
         self.perk12front.alpha = 0.4;
+		self.rampage = 0;
+		self.rampage_on_cooldown = 1;
+		wait 600;
+		self.rampage_on_cooldown = 0;
 		self waittill("rampage_activation");
 		self.rampage = 1;
 		self iprintln("^1Rampage Ability Activated");
 		self.perk12back.alpha = 1;
         self.perk12front.alpha = 1;
-		wait 15;
+		wait 30;
 		self iprintln("^1Rampage Effect Finished");
-		self.perk12back.alpha = 0.3;
-        self.perk12front.alpha = 0.4;
-		self.rampage = 0;
 	}
 }
 
