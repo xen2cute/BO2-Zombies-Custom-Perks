@@ -1031,15 +1031,49 @@ ammoregen()
 	self endon( "stopcustomperk" );
 	for(;;)
 	{
-		if(!self GetCurrentWeapon() == "" && !is_grenade_launcher( self GetCurrentWeapon()) )
+		weapons = self GetWeaponsList();
+		foreach(weapon in weapons)
 		{
-			stockcount = self getweaponammostock( self GetCurrentWeapon() );
-			self setWeaponAmmostock( self GetCurrentWeapon(), stockcount + 1 );
-			wait 1;
+			self iprintln(weapon);
+			if (self GetFractionMaxAmmo(weapon) == 1)
+			{
+				wait 0.1;
+				continue;
+			}
+			
+			if (!weapon == "time_bomb_zm" && !weapon == "frag_grenade_zm" && !weapon == "cymbal_monkey_zm" && !weapon == "time_bomb_detonator_zm" )
+			{
+				stockcount = self GetWeaponAmmoStock( weapon);
+				self SetWeaponAmmoStock( weapon, stockcount + 1);
+			}
+			wait 0.1;
 		}
-		wait 0.1;
+		wait 1;
 	}
 }
+grenadesregen()
+{
+	self endon( "disconnect" );
+	level endon( "end_game" );
+	self endon( "stopcustomperk" );
+	for(;;)
+	{
+		grenades = self get_player_lethal_grenade();
+        grenade_count = self getweaponammoclip(grenades);
+        if(grenade_count < 4)
+		{
+        	self setweaponammoclip(grenades, (grenade_count + 1));
+		}
+		tactical_grenades = self get_player_tactical_grenade();
+        tactical_grenade_count = self getweaponammoclip(tactical_grenades);
+        if(tactical_grenade_count < 3 )
+		{
+        	self setweaponammoclip(tactical_grenades, (tactical_grenade_count + 1));
+		}
+		wait 60;
+	}
+}
+
 doPHDdive() //credit to extinct
 {
 	self endon("disconnect");
@@ -1069,28 +1103,6 @@ doPHDdive() //credit to extinct
 			}
 		}
 		wait .05;
-	}
-}
-grenadesregen()
-{
-	self endon( "disconnect" );
-	level endon( "end_game" );
-	self endon( "stopcustomperk" );
-	for(;;)
-	{
-		grenades = self get_player_lethal_grenade();
-        grenade_count = self getweaponammoclip(grenades);
-        if(grenade_count < 4)
-		{
-        	self setweaponammoclip(grenades, (grenade_count + 1));
-		}
-		tactical_grenades = self get_player_tactical_grenade();
-        tactical_grenade_count = self getweaponammoclip(tactical_grenades);
-        if(tactical_grenade_count < 3 )
-		{
-        	self setweaponammoclip(tactical_grenades, (tactical_grenade_count + 1));
-		}
-		wait 300;
 	}
 }
 
