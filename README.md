@@ -4,6 +4,7 @@
 ## Features 
 - Adds Perk-A-Colas with custom perks to all the zombies maps except Die Rise and MOTD. You can still get the perks through the test function which will give you all the perks.
 - If you wish to change the position of a perk machine I have detailed how you may do so [here](https://github.com/Viren070/BO2-Zombies-Custom-Perk-Machines/blob/main/README.md#how-to-modify-perk-machine-position)
+- This script also allows you to gain points by going prone next to any perk machine, both custom perk and default perk machines. You gain 50 points.
 
 ## Instructions to download 
 1. Download the file in the compiled folder
@@ -15,16 +16,16 @@
 - Thunder Wall - launches nearby enemies into the air upon being attacked by 5 or more zombies
 - Dying Wish - gives a second chance if you die
 - Electric Cherry - generates an electric shockwave upon reload
-- Ammo Regen - slowly regenerates ammunation 
+- Ammo Regen - slowly regenerates ammunation of all weapons 
 - Executioner's Edge- gives melee attacks a one hit kill at any round 
 - Burn Heart - ignore lava damage
 - Downer's Delight - longer bleedout time and use last weapon held in last stand 
 - Victorious Turtle - allows riot shield to block from all directions
 - Mule (on maps that dont have it) - additional primary weapon
 - Bloodthirst - Gain health when killing zombies and can reach a max of 320 health 
-- Rampage - 20% chance of gaining one shot kill for 15 seconds upon killing a zombie 
-- Guarding Strike - 10% chance of becoming invulnerable for 5 seconds upon killing a zombie
-- Headshot Mayhem - Extra damage and points for headshots. 15% chance for a headshot kill to explode and kill surrounding zombies
+- Rampage - This Perk gives insta kills for 30 seconds upon killing a zombie (cooldown of 5 mins)
+- Guarding Strike - This perk grants invulnerability upon killing a zombie (cooldown of 5 minutes)
+- Headshot Mayhem - Extra damage and points for headshots. 5% chance for a headshot kill to explode and kill surrounding zombies
 
 
 ## Pictures of the Perk-A-Colas
