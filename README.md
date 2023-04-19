@@ -11,26 +11,26 @@
 2. Move the file to %localappdata%\Plutonium\storage\t6\scripts\zm
 
 ### Custom Perks Available
-- PhD Flopper - immunity to fall damage and explosions and create an explosion that kills zombise upon diving to prone
-- Widow's Wine - deals damage to zombeis that attack you and slows them down
+- PhD Flopper - immunity to fall damage and explosions and create an explosion that kills zombies upon diving to prone
+- Widow's Wine - deals damage to zombies that attack you and slows them down
 - Thunder Wall - launches nearby enemies into the air upon being attacked by 5 or more zombies
 - Dying Wish - gives a second chance if you die
 - Electric Cherry - generates an electric shockwave upon reload
-- Ammo Regen - slowly regenerates ammunation of all weapons 
+- Ammo Regen - slowly regenerates ammunition of all weapons 
 - Executioner's Edge- gives melee attacks a one hit kill at any round 
 - Burn Heart - ignore lava damage
-- Downer's Delight - longer bleedout time and use last weapon held in last stand 
+- Downer's Delight - longer bleed out time and use last weapon held in last stand 
 - Victorious Turtle - allows riot shield to block from all directions
-- Mule (on maps that dont have it) - additional primary weapon
+- Mule (on maps that don't have it) - additional primary weapon
 - Bloodthirst - Gain health when killing zombies and can reach a max of 320 health 
-- Rampage - This Perk gives insta kills for 30 seconds upon killing a zombie (cooldown of 5 mins)
+- Rampage - This Perk gives insta-kills for 30 seconds upon killing a zombie (cooldown of 5 mins)
 - Guarding Strike - This perk grants invulnerability upon killing a zombie (cooldown of 5 minutes)
 - Headshot Mayhem - Extra damage and points for headshots. 5% chance for a headshot kill to explode and kill surrounding zombies
 
 
 ## Pictures of the Perk-A-Colas
 
-The models may change but the position should stay the same. 
+The models may change, but the position should stay the same. 
 
 
 ### TranZit 
@@ -90,7 +90,7 @@ doGetposition()
 }
 corrected_angles(angles)
 {
-	angles = anges + (0, 90, 0);
+	angles = angles + (0, 90, 0);
 	if (angles[1] < 0)
 	{
 		angles = angles + (0, 360, 0);
@@ -115,18 +115,13 @@ The position and angles can be found using the code above.
 
 Other parameters:
 
-```"zombie_vending_revive_on / model" ```- the model to be used (only models that exist in the map can be used, use this [model list](https://pastebin.com/raw/bH8weGDP) to help
+```"zombie_vending_revive_on / model" ```- the model to be used (only models that exist in the map can be used, use this [model list](https://pastebin.com/raw/bH8weGDP) to help)
 
 ```"Downer's Delight" / name ``` - the name that appears in the hint when you approach the perk machine
 
 ```"Downers_Delight" / perk```- the actual perk, the names of which can be found under the drawshader_and_shadermove() function
 
 ```"zombie_perk_bottle_revive / bottle" ```- the perk bottle, the bottles names can be found [here](https://pastebin.com/aKBQg9RJ)
-
-
-
-
-
 
 ## Credits
 whydoesanyonecare. I took the base code for the perk systems from [dog town plutonium](https://github.com/whydoesanyonecare/Plutonium-versions-of-T6-custom-survival-maps/blob/main/dog_town_plutonium.gsc)
