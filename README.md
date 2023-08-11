@@ -10,6 +10,8 @@
 1. Download the file in the compiled folder
 2. Move the file to %localappdata%\Plutonium\storage\t6\scripts\zm
 
+Note: I believe plutonium now automatically compiles any scripts using their own compiler but my script does not compile due to some errors the last time I checked  (this was a while ago)
+
 ### Custom Perks Available
 - PhD Flopper - immunity to fall damage and explosions and create an explosion that kills zombies upon diving to prone
 - Widow's Wine - deals damage to zombies that attack you and slows them down
