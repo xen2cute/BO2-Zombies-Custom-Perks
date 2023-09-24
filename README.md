@@ -5,10 +5,15 @@
 - Adds Perk-A-Colas with custom perks to all the zombies maps except Die Rise and MOTD. You can still get the perks through the test function which will give you all the perks.
 - If you wish to change the position of a perk machine I have detailed how you may do so [here](https://github.com/Viren070/BO2-Zombies-Custom-Perks#how-to-modify-perk-machine-position)
 - This script also allows you to gain points by going prone next to any perk machine, both custom perk and default perk machines. You gain 50 points.
+- Also adds PaP to Farm survival. 
 
 ## Instructions to download 
-1. Download the file in the compiled folder
-2. Move the file to %localappdata%\Plutonium\storage\t6\scripts\zm
+1. Download the GSC file in the src folder - [Link](https://github.com/Viren070/BO2-Zombies-Custom-Perks/blob/main/src/custom_perk_machines.gsc)
+2. Place the GSC file in `%localappdata%\Plutonium\storage\t6\scripts\zm`
+3. Done!
+
+Note: If you want the option to test all the perks, then go to line 178 and uncomment the line `//self thread test_perks()` ---> `self thread test_perks()`
+
 
 Note: I believe plutonium now automatically compiles any scripts using their own compiler but my script does not compile due to some errors the last time I checked  (this was a while ago)
 
