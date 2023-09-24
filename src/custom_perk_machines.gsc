@@ -2215,57 +2215,6 @@ Perkaholic()
 		}
 		wait 0.25;
 	}
-	
-	self iprintlnbold("^7Press ^1[{+smoke}] ^7again to give all default perks ");
-	for(;;)
-	{
-		if(self secondaryoffhandbuttonpressed())
-		{
-			if ( level.script != "zm_tomb" )
-			{
-				machines = getentarray( "zombie_vending", "targetname" );
-				perks = [];
-				i = 0;
-				while ( i < machines.size )
-				{
-					if ( machines[ i ].script_noteworthy == "specialty_weapupgrade" )
-					{
-						i++;
-						continue;
-					}
-					perks[ perks.size ] = machines[ i ].script_noteworthy;
-					i++;
-				}
-			}
-			else 
-			{
-				perks = level._random_perk_machine_perk_list;
-			}
-			foreach ( perk in perks )
-			{
-				if ( isDefined( self.perk_purchased ) && self.perk_purchased == perk )
-				{
-				}
-				else
-				{
-					if ( self hasperk( perk ) || self maps\mp\zombies\_zm_perks::has_perk_paused( perk ) )
-					{
-					}
-					else
-					{
-						self maps\mp\zombies\_zm_perks::give_perk( perk, 0 );
-						wait 0.25;
-					}
-				}
-			}
-		}
-		wait 0.05;
-	}
 	self.perkaholic_activated = 0;
 	return;
-
 }
-	
-	
-	
-
