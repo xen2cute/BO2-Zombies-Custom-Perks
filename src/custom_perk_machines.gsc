@@ -121,7 +121,7 @@ init()
 	if (  getdvar("mapname") == "zm_buried" || getdvar("mapname") == "zm_tomb"  ) {
 		level._effect["fx_default_explosion"] = level._effect["divetonuke_groundhit"];
 	} else {
-		level._effect["fx_default_explosion"] = loadfx( "explosions\fx_default_explosion" );
+		level._effect["fx_default_explosion"] = loadfx( "explosions/fx_default_explosion" );
 	}
 	
 	level thread onPlayerConnect();
