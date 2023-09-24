@@ -15,8 +15,6 @@
 Note: If you want the option to test all the perks, then go to line 178 and uncomment the line `//self thread test_perks()` ---> `self thread test_perks()`
 
 
-Note: I believe plutonium now automatically compiles any scripts using their own compiler but my script does not compile due to some errors the last time I checked  (this was a while ago)
-
 ### Custom Perks Available
 - PhD Flopper - immunity to fall damage and explosions and create an explosion that kills zombies upon diving to prone
 - Widow's Wine - deals damage to zombies that attack you and slows them down
