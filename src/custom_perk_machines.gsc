@@ -1003,24 +1003,6 @@ drawshader_and_shadermove(perk, custom, print, bottle)
 	}
 }
 
-custom_get_player_weapon_limit( player )
-{
-    weapon_limit = 2;
-    if ( player hascustomperk("MULE") )
-    {
-        weapon_limit = 3;
-    } 
-	else 
-	{
-        weapons = self getWeaponsListPrimaries();
-        if(weapons.size > 2)
-		{
-            self takeWeapon(weapons[2]);
-        }
-    }
-    return weapon_limit;
-}
-
 ammoregen()
 {
 	self endon( "disconnect" );
